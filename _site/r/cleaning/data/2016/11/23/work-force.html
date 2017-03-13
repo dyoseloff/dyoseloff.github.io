@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <title>Cleaning Data | 
+  My Super Cool Math Blog
+</title>
+  
+
+  
+  <meta name="description" content="
+  This website is a compliation of works from my time at Boston Univeristy  using mathematics and statistical concepts and tools such as R.
+">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://localhost:4000/r/cleaning/data/2016/11/23/work-force.html">
+  <link rel="alternate" type="application/rss+xml" title="
+  My Super Cool Math Blog
+" href="/feed.xml">
+
+  
+  
+  <meta name="theme-color" content="#ffffff">
+
+  
+
+  
+
+  
+
+  
+
+  
+</head>
+
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <div class="site-header-float">
+    
+
+
+
+<a class="site-title" href="
+
+
+
+
+/
+">
+  
+    
+  My Super Cool Math Blog
+
+  
+</a>
+
+    
+
+    
+    <nav class="site-nav">
+      <span class="menu-icon">
+        <svg viewBox="0 0 18 15" width="18px" height="15px">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </span>
+
+      <div class="trigger">
+        
+
+<span class="nav-list-title">Menu:</span>
+<ul class="nav-list ">
+
+
+
+
+
+
+  
+  <li><a class="page-link" href="/about/">About</a></li>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+</ul>
+
+      </div>
+    </nav>
+    
+    </div>
+
+    
+    
+
+  </div>
+
+</header>
+
+
+    
+    <main class="post-content" aria-label="Content">
+    
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  
+  <header class="post-header">
+  
+    
+    <div class="wrapper">
+      <h1 class="post-title" itemprop="name headline">Cleaning Data</h1>
+      <p class="post-meta">
+        <time datetime="2016-11-23T20:44:03-05:00" itemprop="datePublished">
+          
+
+  Nov 23, 2016
+
+
+        </time>
+        
+
+
+
+
+        
+      </p>
+      <h3 class="post-summary"></h3>
+    </div>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>There is no lack of data on the internet but to make something useful of it is 90% of the battle. Here, I’m going to step through common practice of cleaning a large data set in R. The process I will use to clean the data is based off conventions introduced in <a href="http://vita.had.co.nz/papers/tidy-data.pdf">an article</a> by R expert Hadley Wickham. Ultimatley, we’d like to have a data set we can ealsiy work with to pull interesting results.</p>
+
+<p>I choose a large messy <a href="https://catalog.data.gov/dataset/job-patterns-for-minorities-and-women-in-private-industry-2009-eeo-1-cbsa-aggregate-by-nai/resource/068dfd37-acbd-450d-aa52-cdc75caa0edf">data set</a> to explore job patterns for minorities and women in private industries during 2009. Government data sets are good to use when practicing data cleaning skills because the flies are typcially large and messy. 
+To start the cleaning process I read the data into R</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"YEAR09_CBSA_NAC3.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">";"</span><span class="p">)</span></code></pre></figure>
+
+<p>Step 1: I need to rename columns to accuratly reflect their data. I did the majority of this manually. (I know this is not the most efficient way but it’s one of my first R projects)</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="nf">names</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Area"</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Industry"</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="m">3</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"to be removed"</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="m">4</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"to be removed"</span></code></pre></figure>
+
+<p>Now, because this data set is so big let’s narrow the area of focus to the Boston category.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">Area</span><span class="o">==</span><span class="s1">'Boston-Cambridge-Quincy, MA-NH'</span><span class="p">)</span></code></pre></figure>
+
+<p>Consequentally, we will want to make changes such as removing the city, state column and removing columns where the notation was not in the legend.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">588</span><span class="o">:</span><span class="m">598</span><span class="p">,</span><span class="w"> </span><span class="m">599</span><span class="p">,</span><span class="w"> </span><span class="m">600</span><span class="p">)]</span></code></pre></figure>
+
+<p>Step 2: At this point our obervations are represented as columns; however, convention is for each obervation to be a row. The process of turning columns into rows is called ‘melting’. So, now I will melt the data using the <a href="https://cran.r-project.org/web/packages/reshape/index.html">reshape</a> package written by Hadley Wickham. Similarly, if we needed to turn columns into rows</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">reshape</span><span class="p">)</span><span class="w">
+</span><span class="n">melted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Industry"</span><span class="p">))</span></code></pre></figure>
+
+<p>Step 3: Another characteristic of tidy data is that each variable represnets a column. Here we have information of several variables contained in one column. So, the column should be seperated into several. In this example the variables: race, gender, type of data, and position are all in one column. I will use another Hadley Whickham package <a href="https://cran.r-project.org/web/packages/tidyr/index.html">tidyr</a> to create four individual coulmns from the one.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+</span><span class="n">split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">separate</span><span class="p">(</span><span class="n">melted</span><span class="p">,</span><span class="w"> </span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Race"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Gender"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Type"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Position"</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">":"</span><span class="p">)</span></code></pre></figure>
+
+<p>Step 4: I delete rows with NA entries. As convention it is okay to delete them because sometimes information is just missing.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></code></pre></figure>
+
+<p>Step 5: The final major characteristic for tidy data is for each observational unit to for a table. In this case we have a column for type of data in which there are two types: number total and percent. So, let’s make two tables instead of having one.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">totals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">Type</span><span class="o">==</span><span class="s2">"Total"</span><span class="p">)</span><span class="w">
+</span><span class="n">percentage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">Type</span><span class="o">==</span><span class="s2">"PoW"</span><span class="p">)</span></code></pre></figure>
+
+<p>Now, we no longer need the type of data column because it is reflected in the table title so let’s get rid of that.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">totals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">totals</span><span class="p">[</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">)]</span><span class="w">
+</span><span class="n">percentage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">percentage</span><span class="p">[</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">)]</span></code></pre></figure>
+
+<p>Congratulations, our data set is clean! It’s time to explore our data.</p>
+
+<p>First, Let’s look at a breakdown of number of workers by gender and position. These results visulaized can provide intuition about trends and important questions such as: Are there significantly less female senior managers than male?</p>
+
+<p>Here we use ggplot to graph a subsetted version of our data. We want a subsetted version which exculds information that would distort our graph. What questions would you ask based on the graph we’ve extrapolated?</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">totalOverallByGender</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">totals</span><span class="p">,</span><span class="w"> </span><span class="n">Gender</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Overall"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Race</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Minority"</span><span class="p">)</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalOverallByGender</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Position</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">Gender</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">,</span><span class="n">position</span><span class="o">=</span><span class="s1">'dodge'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="m">70</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Total Workforce in Positions by Gender'</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s1">'Gender'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'# of Workers'</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/assets/work.png" alt="map" /></p>
+
+<p>Second, let’s use our percentage table to look at the percentage of workers broken down by race for each position in the Food Service and Drinking Places industry. Again we need to subset the data to suit our interests and use ggplot to customize the visuals of our chart.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">percentageFood</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">percentage</span><span class="p">,</span><span class="w"> </span><span class="n">Gender</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Overall"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Industry</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Food Services and Drinking Places"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Race</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Minority"</span><span class="p">)</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percentageFood</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Position</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">Race</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="m">70</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Food Services and Drinking Places Industry'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'% of Workforce'</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s1">'Race'</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/assets/food.png" alt="map" /></p>
+
+<p>There are countless questions that can be asked using the information stored in large data sets. Using the conventions of tidy data makes a world of difference in being able to answer those questions. Ultimatley, we have data that is easy to work with as we take the next steps to answer these questions using statisical methods.</p>
+
+<p>For more details check it out on <a href="https://github.com/dyoseloff/MA415-Midterm">github</a></p>
+
+  </div>
+
+  
+<div class="colored-block">
+  
+  
+    Did you like that post?
+  
+
+  You can suscribe to the
+  <a href="/feed.xml">RSS feed</a>
+  
+
+  .
+</div>
+
+
+  
+
+</article>
+
+      </div>
+    </main>
+
+    
+
+<footer class="site-footer">
+
+  <div class="wrapper">
+
+      <ul class="footer-col footer-col-1">
+        <li>
+          
+
+
+
+<a class="" href="
+
+
+
+
+/
+">
+  
+    
+  My Super Cool Math Blog
+
+  
+</a>
+
+
+        
+
+        
+        <li>
+  This website is a compliation of works from my time at Boston Univeristy  using mathematics and statistical concepts and tools such as R.
+</li>
+        
+
+      </ul>
+
+      
+        
+<span class="contact-list-title">
+  Links :
+</span>
+<ul class="contact-list footer-col footer-col-2">
+  <li>
+    
+<a href="/feed.xml" title="RSS"><span class="icon icon--feed"><svg fill="#000000" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6.18" cy="17.82" r="2.18"/>
+    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+</svg>
+</span>
+  <span class="username">
+    RSS feed
+  </span>
+</a>
+
+
+  </li>
+
+  
+  <li>
+    <a target="_blank" href="https://github.com/dyoseloff" title="Github"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">dyoseloff</span></a>
+
+  </li>
+  
+
+  
+
+  
+
+  
+
+</ul>
+
+      
+
+    <div class="bottom">
+
+      
+      
+
+      <div class="tech">
+        <a target="_blank" href="https://jekyllrb.com/">Jekyll</a> + <a target="_blank" href="https://github.com/gaalcaras/academic">Academic</a>
+        
+      </div>
+
+      <div class="legal">
+      ©
+      
+
+
+
+<a class="" href="
+
+
+
+
+/
+">
+  
+    
+  My Super Cool Math Blog
+
+  
+</a>
+
+      
+      
+      
+      (2016-2017)
+      
+      
+     </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+
+  </body>
+
+</html>
