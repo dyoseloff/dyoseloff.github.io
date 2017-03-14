@@ -1,8 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    academic (0.5.8)
-      jekyll-data (~> 1.0)
     activesupport (4.2.7)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -199,7 +197,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  academic
   github-pages
   jekyll-data
   jekyll-feed (~> 0.6)
