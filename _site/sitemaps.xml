@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        
+
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://localhost:4000/about/</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/about/"
+                />
+    
+    
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://localhost:4000/</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/"
+                />
+    
+    
+    
+    <changefreq>weekly</changefreq>
+    
+    <priority>1</priority>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+
+  
+
+  
+
+
+        
+
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://localhost:4000/r/twitterapi/ggmap/2016/12/12/common-misspellings.html</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/twitterapi/ggmap/2016/12/12/common-misspellings.html"
+                />
+    
+    
+    
+    <lastmod>2016-12-12T20:44:03-05:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://localhost:4000/r/cleaning/data/2016/11/23/work-force.html</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/cleaning/data/2016/11/23/work-force.html"
+                />
+    
+    
+    
+    <lastmod>2016-11-23T20:44:03-05:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+
+</urlset>
