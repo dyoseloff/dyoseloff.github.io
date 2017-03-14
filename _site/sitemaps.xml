@@ -104,6 +104,12 @@
                 href="http://localhost:4000/r/cleaning/data/2016/11/23/work-force.html"
                 />
     
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/log/transformation/2016/10/23/work-force.1.html"
+                />
+    
     
     
     <lastmod>2016-11-23T20:44:03-05:00</lastmod>
@@ -111,6 +117,14 @@
     <changefreq>weekly</changefreq>
     
   </url>
+  
+  
+  
+
+  
+  
+  
+  
   
   
   

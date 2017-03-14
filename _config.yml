@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: My Super Cool Math Blog
+title: Danielle Yoseloff
 email: dyoseloff@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   This website is a compliation of works from my time at Boston Univeristy 
@@ -21,6 +21,10 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  dyoseloff
+author: Danielle Yoseloff
+shortbio: I'm a data scientist with a BA in Mathamatics and Statistics
+pitch: Data Scientist
+repo: https://github.com/dyoseloff/dyoseloff.github.io
 
 # Build settings
 markdown: kramdown

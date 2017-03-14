@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <title>Log Transformation | 
+  Danielle Yoseloff
+</title>
+  
+
+  
+  <meta name="description" content="Simple linear regression log transformation in R.">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://localhost:4000/r/log/transformation/2016/10/23/work-force.1.html">
+  <link rel="alternate" type="application/rss+xml" title="
+  Danielle Yoseloff
+" href="/feed.xml">
+
+  
+  
+  <meta name="theme-color" content="#ffffff">
+
+  
+
+  
+
+  
+
+  
+
+  
+</head>
+
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <div class="site-header-float">
+    
+
+
+
+<a class="site-title with-pitch" href="
+
+
+
+
+/
+">
+  
+    
+  Danielle Yoseloff
+
+  
+</a>
+
+    
+      <span class="site-pitch">
+  Data Scientist
+</span>
+    
+
+    
+    </div>
+
+    
+    
+
+  </div>
+
+</header>
+
+
+    
+    <main class="post-content" aria-label="Content">
+    
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  
+  <header class="post-header">
+  
+    
+    <div class="wrapper">
+      <h1 class="post-title" itemprop="name headline">Log Transformation</h1>
+      <p class="post-meta">
+        <time datetime="2016-10-23T21:44:03-04:00" itemprop="datePublished">
+          
+
+  Oct 23, 2016
+
+
+        </time>
+        
+
+
+
+
+         • 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Danielle Yoseloff</span></span>
+        
+      </p>
+      <h3 class="post-summary">Simple linear regression log transformation in R.</h3>
+    </div>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>In modern statistical practice, methods to analyse linear data are much more understood than nonlinear data. So, ideally the data you’re working with has a linear trend. When it does not, what can be done? Transformations. Some common types of transformations include: log, square root, cube root, and reciprocal. While there is broad criteria to determine which method of transformation should be used, it takes years of experience to master the art.</p>
+
+<p>Here, we will use R to look at a smimple linear regression, identify it as nonlinear, apply a log transformation, and confirm our changes have improved the data.</p>
+
+<p>Let’s use the UN11 data from the <a href="https://cran.r-project.org/web/packages/alr4/index.html">alr4 package</a>. Remeber you only need to install the package the first time you use it. The last line of code will provide a detailed description of the interpretation of the data set.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">install.packages</span><span class="p">(</span><span class="s2">"alr4"</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">alr4</span><span class="p">)</span><span class="w">
+</span><span class="o">?</span><span class="n">UN11</span></code></pre></figure>
+
+<p>The simple linear model we would like to study is how per capita gpd (ppgdp) predicts number of children per women (fertility). For data that is linear, the plot of these variables should show a linear trend.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">ppgdp</span><span class="p">,</span><span class="w"> </span><span class="n">UN11</span><span class="o">$</span><span class="n">fertility</span><span class="p">)</span></code></pre></figure>
+
+<p>Here we see the data exponentially decreasing. This is a problem because the exponential function is most certianly not linear.
+<img src="/assets/plot.png" alt="plot" /></p>
+
+<p>Another way to check for linearity of variables is to look at their histograms. Linear data will conform to a normal bell curve while  nonlinear data will have skewed histograms.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">hist</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">ppgdp</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="s2">"Histogram of Ppgdp"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="w"> </span><span class="s1">'ppgdp'</span><span class="p">)</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">fertility</span><span class="p">,</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="s2">"Histogram of Fertility"</span><span class="p">,</span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fertility"</span><span class="p">)</span></code></pre></figure>
+
+<p>As expected, our variables confirm to be nonlinear
+<img src="/assets/hist.png" alt="hist" /></p>
+
+<p>At this point a seasoned statistician would suggest this data needs to be transformed with the log function. So, lets plot the regression where each variable has been transformed.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">fertility</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">ppgdp</span><span class="p">),</span><span class="w"> </span><span class="n">UN11</span><span class="p">,</span><span class="n">ylab</span><span class="o">=</span><span class="s2">"log(fertility)"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s2">"log(ppgdp)"</span><span class="p">)</span></code></pre></figure>
+
+<p>Where we before saw an exponential trend we now see a negative linear trend. This plot looks good because log transformation has successfully made the data behave linearly. 
+<img src="/assets/plot2.png" alt="plot2" /></p>
+
+<p>Finally, let’s take an individual look at the histograms of our transformed variables.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">hist</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">ppgdp</span><span class="p">),</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="s2">"Histogram of Log Ppgdp"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'log(ppgdp)'</span><span class="p">)</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">fertility</span><span class="p">),</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of Log Fertility"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"log(fertility)"</span><span class="p">)</span></code></pre></figure>
+
+<p>We can see a great improvment to the skewdness of the histograms. While they don’t look like completly standard bell curves, the transformation has greatly changed the behavior of the data to act more linear. 
+<img src="/assets/histlog.png" alt="loghist" /></p>
+
+  </div>
+
+  
+  <div class="post-author">
+    
+      <a href="
+  
+">
+        <img class="user-picture" src="https://github.com/dyoseloff.png" alt="Danielle Yoseloff">
+      </a>
+    
+      <ul class="user-info">
+        <li class="user-name">
+          Danielle Yoseloff
+        </li>
+        <li class="user-shortbio">
+  I'm a data scientist with a BA in Mathamatics and Statistics
+</li>
+      </ul>
+  </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    
+
+<footer class="site-footer">
+
+  <div class="wrapper">
+
+      <ul class="footer-col footer-col-1">
+        <li>
+          
+
+
+
+<a class="" href="
+
+
+
+
+/
+">
+  
+    
+  Danielle Yoseloff
+
+  
+</a>
+
+
+        
+
+      </ul>
+
+      
+        <nav>
+        
+
+<span class="nav-list-title">Menu:</span>
+<ul class="nav-list footer-col footer-col-2">
+
+
+
+
+
+
+  
+  <li><a class="page-link" href="/about/">About</a></li>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+</ul>
+
+        
+<span class="contact-list-title">
+  Links :
+</span>
+<ul class="contact-list single-col">
+  <li>
+    
+<a href="/feed.xml" title="RSS"><span class="icon icon--feed"><svg fill="#000000" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6.18" cy="17.82" r="2.18"/>
+    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+</svg>
+</span>
+  <span class="username">
+    RSS feed
+  </span>
+</a>
+
+
+  </li>
+
+  
+  <li>
+    <a target="_blank" href="https://github.com/dyoseloff" title="Github"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">dyoseloff</span></a>
+
+  </li>
+  
+
+  
+
+  
+
+  
+
+</ul>
+
+        </nav>
+      
+
+    <div class="bottom">
+
+      
+      
+
+      <div class="tech">
+        <a target="_blank" href="https://jekyllrb.com/">Jekyll</a> + <a target="_blank" href="https://github.com/gaalcaras/academic">Academic</a>
+        
+        + <a target="_blank" href="https://github.com/dyoseloff/dyoseloff.github.io">Source</a>
+        
+      </div>
+
+      <div class="legal">
+      ©
+      
+
+
+
+<a class="" href="
+
+
+
+
+/
+">
+  
+    
+  Danielle Yoseloff
+
+  
+</a>
+
+      
+      
+      
+      (2016-2017)
+      
+      
+     </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+
+  </body>
+
+</html>

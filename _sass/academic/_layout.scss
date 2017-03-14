@@ -498,6 +498,18 @@
   h2:first-of-type {
     margin-top: 0;
   }
+
+  .description {
+    min-height: 128px;
+    margin-bottom: 32px;
+
+    .user-picture {
+      max-width: 20%;
+      border: 5px darken($brand-color, 5%) double;
+      margin-right: 16px;
+      float: left;
+    }
+  }
 }
 
 .archive {

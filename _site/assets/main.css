@@ -227,6 +227,8 @@ form input[type=submit]:active { background: #d33682; }
 .page-heading { margin-top: 0; }
 
 .pitch h2:first-of-type { margin-top: 0; }
+.pitch .description { min-height: 128px; margin-bottom: 32px; }
+.pitch .description .user-picture { max-width: 20%; border: 5px #c42b75 double; margin-right: 16px; float: left; }
 
 .archive { margin-top: 50px; }
 

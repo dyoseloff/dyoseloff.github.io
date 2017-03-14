@@ -14,11 +14,14 @@ layout: default
   <p>{% include _i18n/i18n.html value=site.description %}</p>
   {% endunless %}
 
+  <div class="description">
+    <img class="user-picture" src="https://github.com/{{ site.github_username }}.png" alt="{{ site.author }}">
+    Welcome to my super cool math blog!
+  </div>
+
   {{ content }}
 
   {% include post-ul.html limit=true %}
-
-  {% include calltoaction.html %}
 
   {% assign nb_posts = site.posts | size %}
 

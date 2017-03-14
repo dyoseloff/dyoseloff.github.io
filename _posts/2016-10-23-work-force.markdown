@@ -3,6 +3,7 @@ layout: post
 title:  "Cleaning Data"
 date:   2016-11-23 20:44:03 -0500
 categories: R cleaning data 
+summary: Learn how to clean data effectively in R.
 ---
 There is no lack of data on the internet but to make something useful of it is 90% of the battle. Here, I'm going to step through common practice of cleaning a large data set in R. The process I will use to clean the data is based off conventions introduced in [an article](http://vita.had.co.nz/papers/tidy-data.pdf) by R expert Hadley Wickham. Ultimatley, we'd like to have a data set we can ealsiy work with to pull interesting results.   
 

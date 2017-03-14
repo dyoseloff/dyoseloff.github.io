@@ -18,8 +18,8 @@ layout: default
           {% include _i18n/date.html date=page.date %}
         </time>
         {% include _i18n/last_modified_at.html object=page %}
-        {% if page.author %} • 
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>
+        {% if site.author %} • 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ site.author }}</span></span>
         {% endif %}
       </p>
       <h3 class="post-summary">{{ page.summary }}</h3>
@@ -29,8 +29,6 @@ layout: default
   <div class="post-content" itemprop="articleBody">
     {{ content }}
   </div>
-
-  {% include calltoaction.html %}
 
   {% if site.shortbio %}
   <div class="post-author">
