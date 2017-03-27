@@ -69,6 +69,32 @@
   
   
   <url>
+    <loc>http://localhost:4000/r/outliers/collinearity/residuals/interaction/2017/02/12/name.html</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/outliers/collinearity/residuals/interaction/2017/02/12/name.html"
+                />
+    
+    
+    
+    <lastmod>2017-02-12T20:44:03-05:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+  
+  
+  <url>
     <loc>http://localhost:4000/r/twitterapi/ggmap/2016/12/12/common-misspellings.html</loc>
     
     
@@ -104,12 +130,6 @@
                 href="http://localhost:4000/r/cleaning/data/2016/11/23/work-force.html"
                 />
     
-    <xhtml:link
-                rel="alternate"
-                hreflang=""
-                href="http://localhost:4000/r/log/transformation/2016/10/23/work-force.1.html"
-                />
-    
     
     
     <lastmod>2016-11-23T20:44:03-05:00</lastmod>
@@ -125,6 +145,24 @@
   
   
   
+  
+  <url>
+    <loc>http://localhost:4000/r/log/transformation/2016/10/23/log-trans.html</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/log/transformation/2016/10/23/log-trans.html"
+                />
+    
+    
+    
+    <lastmod>2016-10-23T21:44:03-04:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
   
   
   
