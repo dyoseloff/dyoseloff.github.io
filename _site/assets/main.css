@@ -118,6 +118,8 @@ form input[type=email]:focus { border-color: #d33682; }
 form input[type=submit]:hover { color: #fdfdfd; background: #3F3F3F; }
 form input[type=submit]:active { background: #d33682; }
 
+.summary-image { width: 400px; display: block; margin-left: auto; margin-right: auto; }
+
 /** Site header */
 .site-header { border-top: 5px solid #3F3F3F; border-bottom: 1px solid #bfbfbf; position: relative; }
 @media screen and (max-width: 700px) { .site-header { min-height: 100px; } }

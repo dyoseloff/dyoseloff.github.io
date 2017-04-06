@@ -6,9 +6,7 @@ permalink: /about/
 
 ![map](/assets/me4.jpg)
 
-In May 2017 I expect to finish my BA in Mathematics and Statistics at Boston University. This site is a compilation of interesting concepts I came across during my studies.
-
-Born and raised in Los Angeles, I chose to travel east for a college experience with dramatic seasons. 
+Born and raised in Los Angeles, I chose to travel east for a college experience with dramatic seasons. I expect to finish my BA in Mathematics and Statistics at Boston University in May 2017. 
 
 A long time passion of mine is astronomy which all started with Carl Sagan’s 
 Cosmos. This prompted me to take an introductory astronomy course my first semester which ultimately led to my interest in math and statistics. I’m also a member of the Boston University Astronomical Society and was even able to get away from the city to go star gazing in rural Massachusetts with the club. 
