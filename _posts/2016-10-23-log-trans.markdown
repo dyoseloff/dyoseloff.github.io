@@ -5,11 +5,11 @@ date:   2016-10-23 20:44:03 -0500
 categories: R log transformation
 summary: Simple linear regression log transformation in R. 
 ---
-In modern statistical practice, methods to analyse linear data are much more understood than nonlinear data. So, ideally the data you're working with has a linear trend. When it does not, what can be done? Transformations. Some common types of transformations include: log, square root, cube root, and reciprocal. While there is broad criteria to determine which method of transformation should be used, it takes years of experience to master the art. 
+In modern statistical practice, methods to analyze linear data are much more understood than nonlinear data. So, ideally the data you're working with has a linear trend. When it does not, what can be done? Transformations. Some common types of transformations include: log, square root, cube root, and reciprocal. While there is broad criteria to determine which method of transformation should be used, it takes years of experience to master the art. 
 
-Here, we will use R to look at a smimple linear regression, identify it as nonlinear, apply a log transformation, and confirm our changes have improved the data. 
+Here, we will use R to look at a simple linear regression, identify it as nonlinear, apply a log transformation, and confirm our changes have improved the data. 
 
-Let's use the UN11 data from the [alr4 package](https://cran.r-project.org/web/packages/alr4/index.html). Remeber you only need to install the package the first time you use it. The last line of code will provide a detailed description of the interpretation of the data set. 
+Let's use the UN11 data from the [alr4 package](https://cran.r-project.org/web/packages/alr4/index.html). Remember you only need to install the package the first time you use it. The last line of code will provide a detailed description of the interpretation of the data set. 
 {% highlight r %}
 install.packages("alr4")
 library(alr4)
@@ -20,7 +20,7 @@ The simple linear model we would like to study is how per capita gpd (ppgdp) pre
 {% highlight r%}
 plot(UN11$ppgdp, UN11$fertility)
 {% endhighlight %}
-Here we see the data exponentially decreasing. This is a problem because the exponential function is most certianly not linear.
+Here we see the data exponentially decreasing. This is a problem because the exponential function is most certainly not linear.
 ![plot](/assets/plot.png)
 
 Another way to check for linearity of variables is to look at their histograms. Linear data will conform to a normal bell curve while  nonlinear data will have skewed histograms.
@@ -43,5 +43,5 @@ Finally, let's take an individual look at the histograms of our transformed vari
 hist(log(UN11$ppgdp),main ="Histogram of Log Ppgdp", xlab = 'log(ppgdp)')
 hist(log(UN11$fertility), main = "Histogram of Log Fertility", xlab = "log(fertility)")
 {% endhighlight %}
-We can see a great improvment to the skewdness of the histograms. While they don't look like completly standard bell curves, the transformation has greatly changed the behavior of the data to act more linear. 
+We can see a great improvement to the skewedness of the histograms. While they don't look like completely standard bell curves, the transformation has greatly changed the behavior of the data to act more linear. 
 ![loghist](/assets/histlog.png)
