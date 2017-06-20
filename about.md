@@ -6,14 +6,13 @@ permalink: /about/
 
 ![map](/assets/me4.jpg)
 
-Born and raised in Los Angeles, I chose to travel east for a college experience with dramatic seasons. I expect to finish my BA in Mathematics and Statistics at Boston University in May 2017. 
+I was born and raised in Los Angeles but chose to go to the east coast for college. In May 2017 I received a BA in Mathematics with a focus in Statistics from Boston University.
 
-A long time passion of mine is astronomy which all started with Carl Sagan’s 
-Cosmos. This prompted me to take an introductory astronomy course my first semester which ultimately led to my interest in math and statistics. I’m also a member of the Boston University Astronomical Society and was even able to get away from the city to go star gazing in rural Massachusetts with the club. 
+One of my hobbies is an interest in astronomy. This prompted me to take an introductory astronomy course my first semester at BU, which ultimately led to my interest in math and statistics. I was also a member of the Boston University Astronomical Society and was even able to get away from the city to go star gazing in rural Massachusetts with the club. 
 
-I’ve enjoyed taking semester long sport classes offered at the university gym for the past few years as fun breaks to my schedule. My go-to sport is racquetball which I’ve been playing since high school. For variety, I’ve also enjoyed learning tennis, yoga, kickboxing, and salsa dancing. 
+Another one of my hobbies is racquetball which I've been playing since high school. I continued to play at school by taking sport classes. During my four years at school I also enjoyed classes learning tennis, yoga, kickboxing, and salsa dancing. 
 
-Self-improvement is something I’m always working on, and to me traveling is the most exciting way to push those personal boundaries. I took this to heart immediately after finishing high school by continuing to study French in Paris during a 6-week immersion program at the American University of Paris. Afterwards, I expanded my horizons further by becoming an Au Pair in Rome for three months. Shortly after beginning at Boston University, I studied abroad in London with an intensive program through the College of General Studies. 
+One of my favorite hobby is to travel. To me traveling is the most exciting way to push personal boundaries. After finishing high school, I was fortunate enough to have the opportunity to continue studying French in Paris during a 6-week immersion program at the American University of Paris. Afterwards, while most of my peers were beginning college I worked as an Au Pair in Rome for three months. The Boston University College of General Studies program I was accepted into commenced in the spring so it gave me the time in the fall to enjoy my Au Pair experience. The program also offered a summer semester abroad in London with an intensive curriculum. 
 
-This all leads me to a new adventure starting a career in data science in the Salt Lake City area. 
+Following graduation, I relocated to the Salt Lake City area to begin a career in the field of my greatest hobby, statistics. 
 
