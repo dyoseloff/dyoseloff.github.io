@@ -7,7 +7,7 @@ summary: Learn how to clean data effectively in R.
 ---
 There is no lack of data on the internet but to make something useful of it is 90% of the battle. Here, I'm going to step through common practice of cleaning a large data set in R. The process I will use to clean the data is based off conventions introduced in [an article](http://vita.had.co.nz/papers/tidy-data.pdf) by R expert Hadley Wickham. Ultimately, we'd like to have a data set we can easily work with to pull interesting results.   
 
-I choose a large messy [data set](https://catalog.data.gov/dataset/job-patterns-for-minorities-and-women-in-private-industry-2009-eeo-1-cbsa-aggregate-by-nai/resource/068dfd37-acbd-450d-aa52-cdc75caa0edf) to explore job patterns for minorities and women in private industries during 2009. Government data sets are good to use when practicing data cleaning skills because the flies are typically large and messy. 
+I chose a large messy [data set](https://catalog.data.gov/dataset/job-patterns-for-minorities-and-women-in-private-industry-2009-eeo-1-cbsa-aggregate-by-nai/resource/068dfd37-acbd-450d-aa52-cdc75caa0edf) to explore job patterns for minorities and women in private industries during 2009. Government data sets are good to use when practicing data cleaning skills because the files are typically large and messy. 
 To start the cleaning process, I read the data into R 
 {% highlight r %}
 data <- read.table("YEAR09_CBSA_NAC3.txt", header= TRUE, sep=";")
@@ -31,7 +31,7 @@ Consequentially, we will want to make changes such as removing the city, state c
 data <- data[-c(1, 3, 4, 588:598, 599, 600)]
 {% endhighlight %}
 
-Step 2: At this point our observations are represented as columns; however, convention is for each observation to be a row. The process of turning columns into rows is called 'melting'. So, now I will melt the data using the [reshape](https://cran.r-project.org/web/packages/reshape/index.html) package written by Hadley Wickham. Similarly, if we needed to turn columns into rows 
+Step 2: At this point our observations are represented as columns; however, convention is for each observation to be a row. The process of turning columns into rows is called 'melting'. So, now I will melt the data using the [reshape](https://cran.r-project.org/web/packages/reshape/index.html) package written by Hadley Wickham.
 {% highlight r %}
 library(reshape)
 melted <- melt(data, id=c("Industry"))
@@ -48,7 +48,7 @@ Step 4: I delete rows with NA entries. As convention it is okay to delete them b
 split <- subset(split, !is.na(value))
 {% endhighlight %}
 
-Step 5: The final major characteristic for tidy data is for each observational unit to for a table. In this case we have a column for type of data in which there are two types: number total and percent. So, let's make two tables instead of having one. 
+Step 5: The final major characteristic for tidy data is for each observational unit to be a table. In this case we have a column for type of data in which there are two types: number total and percent. So, let's make two tables instead of having one. 
 {% highlight r%}
 totals <- subset(split, Type=="Total")
 percentage <- subset(split, Type=="PoW")

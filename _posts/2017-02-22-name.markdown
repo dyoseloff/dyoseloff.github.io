@@ -19,7 +19,7 @@ summary(two)
 The Rsquared is .081 which is quite low indicating the model is not a good predictor of y. Let's also note, we observe age and x1 to be the significant variables. 
 
 ### Step 1: Linearity
- One of the fundamental assumptions of a linear model is the assumption that all variables are linear. Let's check put looking at plots of all independent variables graphed against the residuals. 
+ One of the fundamental assumptions of a linear model is the assumption that all variables are linear. Let's check by looking at plots of all independent variables graphed against the residuals. 
 {% highlight r %}
 residuals <- resid(two)
 plot(residuals~age,data2)
@@ -32,7 +32,7 @@ For the regression plots to be linear we want to see a random scatter of the obs
 ![residual plots](/assets/res1.png)
 ![residual plots](/assets/res2.png)
 ![residual plots](/assets/res3.png)
-The plots for age, x1, and x3 look random, so we can assume they are linear. The residual plot for x2 looks a bit different but is also random when we think about it. The variable for sex is either 0 or 1, so given that the observations can only be at those two marks on the axis we are really looking for a random spread on the y axis. And yes, there doesn't appear to be a cluster of the data at any point of the y axis. Now finally we have the residual plot for x2. It appears to be following the trend of a negative parabola. This is a red flag that the x2 variable is nonlinear. 
+The plots for age, x1, and x3 look random, so we can assume they are linear. The residual plot for sexf looks a bit different but is also random when we think about it. The variable for sex is either 0 or 1, so given that the observations can only be at those two marks on the axis we are really looking for a random spread on the y axis. And yes, there doesn't appear to be a cluster of the data at any point of the y axis. Now finally we have the residual plot for x2. It appears to be following the trend of a negative parabola. This is a red flag that the x2 variable is nonlinear. 
 
 One way to compensate for this linearity problem is by adding another variable to the model that is the square of the nonlinear variable. To do this, I created a new column in our data set that is x2squared, then added that term in our regression. Additionally, I run a summary of our model so we can assess it. 
 {% highlight r %}
@@ -58,7 +58,7 @@ It's easy to see one point which is significant. I found the outlier point to be
 <img src="/assets/srval.png" alt="sr values" class="summary-image"/>
 <img src="/assets/studp.png" alt="srplot" class="summary-image"/>
 
-The second way to identify outliers is by calculating the Cook's distance for each observation. Influential point for Cook's distance will have a vale greater than 4/n. In our case, we're looking for values greater than 4/100 or .04. 
+The second way to identify outliers is by calculating the Cook's distance for each observation. Influential point for Cook's distance will have a value greater than 4/n. In our case, we're looking for values greater than 4/100 or .04. 
 {% highlight r %}
 cooks.distance(three)
 cook <- cooks.distance(three)

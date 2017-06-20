@@ -9,7 +9,7 @@ During a time when autocorrect on our phones and computers carries a heavy load,
 
 I will use data analytics processes in conjunction with the following tools: Rstudio, [twittR](https://cran.r-project.org/web/packages/twitteR/), [wordcloud](https://cran.r-project.org/web/packages/wordcloud/), [ggplot2](https://cran.r-project.org/web/packages/ggplot2/).
 
-A special note, data analytics processes is methods to how I extracted the data, choose what data to use and discard, and the best ways to visually display the data so it is easiest to interpret. 
+A special note, by 'data analytics processes' I mean methods of how I extracted the data, choose what data to use and discard, and the best ways to visually display the data so it is easiest to interpret. 
 
 The first step is to set up the user API
 {% highlight r %}
