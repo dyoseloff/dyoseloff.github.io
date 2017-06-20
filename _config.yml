@@ -22,8 +22,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  dyoseloff
 author: Danielle Yoseloff
-shortbio: I'm an aspiring data scientist with a BA in Mathamatics and Statistics
-pitch: Boston University Student
+shortbio: Salt Lake City
+pitch: Boston University Alum 
 repo: https://github.com/dyoseloff/dyoseloff.github.io
 
 # Build settings
