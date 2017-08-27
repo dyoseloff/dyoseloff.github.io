@@ -67,7 +67,7 @@
 
     
       <span class="site-pitch">
-  Boston University Student
+  Boston University Alum
 </span>
     
 
@@ -95,7 +95,7 @@
     <div class="wrapper">
       <h1 class="post-title" itemprop="name headline">Best Model for the Data</h1>
       <p class="post-meta">
-        <time datetime="2017-02-12T20:44:03-05:00" itemprop="datePublished">
+        <time datetime="2017-02-12T18:44:03-07:00" itemprop="datePublished">
           
 
   Feb 12, 2017
@@ -116,7 +116,7 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>It can be complicated to asses the best way to model data. How can you know if your model is good? How can you know what steps to take to make it better? Did you really make it better? In our exploration of these questions we will come across concepts such at interaction variables, residual plots, outliers, and collinearity.</p>
+    <p>It can be complicated to assess the best way to model data. How can you know if your model is good? How can you know what steps to take to make it better? Did you really make it better? In our exploration of these questions we will come across concepts such at interaction variables, residual plots, outliers, and collinearity.</p>
 
 <p>I’m working with a csv file which I <code class="highlighter-rouge">read</code> into my R document and named ‘data2’. It contains 100 observations with the variables y, age, sexf, x1, x2, and x3. Our goal is to come up with a model that is very good at predicting y.</p>
 
@@ -130,7 +130,7 @@
 <p>The Rsquared is .081 which is quite low indicating the model is not a good predictor of y. Let’s also note, we observe age and x1 to be the significant variables.</p>
 
 <h3 id="step-1-linearity">Step 1: Linearity</h3>
-<p>One of the fundumental assumptions of a linear model is the assumption that all variables are linear. Let’s check put looking at plots of all independent variables graphed against the residuals.</p>
+<p>One of the fundamental assumptions of a linear model is the assumption that all variables are linear. Let’s check by looking at plots of all independent variables graphed against the residuals.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">residuals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">resid</span><span class="p">(</span><span class="n">two</span><span class="p">)</span><span class="w">
 </span><span class="n">plot</span><span class="p">(</span><span class="n">residuals</span><span class="o">~</span><span class="n">age</span><span class="p">,</span><span class="n">data2</span><span class="p">)</span><span class="w">
@@ -143,9 +143,9 @@
 <img src="/assets/res1.png" alt="residual plots" />
 <img src="/assets/res2.png" alt="residual plots" />
 <img src="/assets/res3.png" alt="residual plots" />
-The plots for age, x1, and x3 look random, so we can assume they are linear. The residual plot for x2 looks a bit different but is also random when we think about it. The variable for sex is either 0 or 1, so given that the obervations can only be at those two marks on the axis we are really looking for a random spread on the y axis. And yes, there doesn’t appear to be a cluster of the data at any point of the y axis. Now finally we have the resudual plot for x2. It appears to be following the trend of a negative parabola. This is a red flag that the x2 variable is nonlinear.</p>
+The plots for age, x1, and x3 look random, so we can assume they are linear. The residual plot for sexf looks a bit different but is also random when we think about it. The variable for sex is either 0 or 1, so given that the observations can only be at those two marks on the axis we are really looking for a random spread on the y axis. And yes, there doesn’t appear to be a cluster of the data at any point of the y axis. Now finally we have the residual plot for x2. It appears to be following the trend of a negative parabola. This is a red flag that the x2 variable is nonlinear.</p>
 
-<p>One way to compensate for this linearity problem is by adding another variable to the model that is the square of the nonlinear vairable. To do this, I created a new column in our data set that is x2squared, then added that term in our regression. Additionally I run a summary of our model so we can asses it.</p>
+<p>One way to compensate for this linearity problem is by adding another variable to the model that is the square of the nonlinear variable. To do this, I created a new column in our data set that is x2squared, then added that term in our regression. Additionally, I run a summary of our model so we can assess it.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data2</span><span class="o">$</span><span class="n">x</span><span class="m">22</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data2</span><span class="o">$</span><span class="n">x</span><span class="m">2</span><span class="o">^</span><span class="m">2</span><span class="w">
 </span><span class="n">three</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">y</span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sexf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="n">x</span><span class="m">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">22</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="p">)</span><span class="w">
@@ -153,7 +153,7 @@ The plots for age, x1, and x3 look random, so we can assume they are linear. The
 
 <p><img src="/assets/s2.png" alt="second summ" class="summary-image" /></p>
 
-<p>Our Rsquared value jumps to 0.787. This model is a much better fit than our previous model without the x2squared variable. Now we see that x2 and x2squared are the significat variabels.</p>
+<p>Our Rsquared value jumps to 0.787. This model is a much better fit than our previous model without the x2squared variable. Now we see that x2 and x2squared are the significant variables.</p>
 
 <h3 id="step-2-outliers">Step 2: Outliers</h3>
 <p>We can improve a model by checking for outliers and removing any we find significant. Let’s look at two criteria for determining outliers. 
@@ -169,7 +169,7 @@ The first is studentized residuals which follow a t table with n-k-1 degrees of 
 <p><img src="/assets/srval.png" alt="sr values" class="summary-image" />
 <img src="/assets/studp.png" alt="srplot" class="summary-image" /></p>
 
-<p>The second way to identify outliers is by calculating the Cooks Distance for each observation. Influencial point for cooks distance will have a vale greater than 4/n. In our case, we’re looking for values greater than 4/100 or .04.</p>
+<p>The second way to identify outliers is by calculating the Cook’s distance for each observation. Influential point for Cook’s distance will have a value greater than 4/n. In our case, we’re looking for values greater than 4/100 or .04.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">cooks.distance</span><span class="p">(</span><span class="n">three</span><span class="p">)</span><span class="w">
 </span><span class="n">cook</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cooks.distance</span><span class="p">(</span><span class="n">three</span><span class="p">)</span><span class="w">
@@ -181,11 +181,11 @@ The first is studentized residuals which follow a t table with n-k-1 degrees of 
 <p><img src="/assets/cdval.png" alt="cd values" class="summary-image" />
 <img src="/assets/cookp.png" alt="cd plot" class="summary-image" /></p>
 
-<p>After confirming obervation 7 is an outlier the next step is to remove it. To do this we will be creating a new dataframe called ‘newdata’ which is a subset of our data. It will have all 8 of our variables but only 99 obervations.</p>
+<p>After confirming observation 7 is an outlier the next step is to remove it. To do this we will be creating a new dataframe called ‘newdata’ which is a subset of our data. It will have all 8 of our variables but only 99 observations.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">newdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data2</span><span class="p">[</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">7</span><span class="p">),]</span></code></pre></figure>
 
-<p>Let’s see if removing the outlier imporved our model</p>
+<p>Let’s see if removing the outlier improved our model</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">y</span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sexf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="n">x</span><span class="m">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">22</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="p">)</span><span class="w">
 </span><span class="n">summary</span><span class="p">(</span><span class="n">m</span><span class="p">)</span></code></pre></figure>
@@ -195,20 +195,20 @@ The first is studentized residuals which follow a t table with n-k-1 degrees of 
 <p>Yes, removing the outlier increase the Rsquared of the model to .9871 which is very high. We still see that only variables x2 and x2 squared are significant.</p>
 
 <h3 id="step-3-collinearity">Step 3: Collinearity</h3>
-<p>Variance inflation factor(VIF) is a value assigned to each indepented variable in a model to describe collinearity. A high VIF value means that variable is highly correlated with another variable in the model. We should expect that x2 and x2squared will have high VIF values because the are highly correlated. But, let’s check if any other variables in our model are correlated.</p>
+<p>Variance inflation factor(VIF) is a value assigned to each independent variable in a model to describe collinearity. A high VIF value means that variable is highly correlated with another variable in the model. We should expect that x2 and x2squared will have high VIF values because they are highly correlated. But, let’s check if any other variables in our model are correlated.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">vif</span><span class="p">(</span><span class="n">m</span><span class="p">)</span></code></pre></figure>
 
 <p><img src="/assets/vif.png" alt="vif" class="summary-image" /></p>
 
-<p>It appears age and x1 are also highly correlated. When two variable that are highly correlated are in the model it can create problems. Because both are present neither would seem like an important contribution. However, when one is not present the other may be highly significant. So, let’s remove x1 from our model and th updated model.</p>
+<p>It appears age and x1 are also highly correlated. When two variables that are highly correlated are in the model it can create problems. Because both are present neither would seem like an important contribution. However, when one is not present the other may be highly significant. So, let’s remove x1 from our model and the updated model.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">m</span><span class="m">5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">y</span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sexf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="n">x</span><span class="m">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="m">22</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="p">)</span><span class="w">
 </span><span class="n">summary</span><span class="p">(</span><span class="n">m</span><span class="m">5</span><span class="p">)</span></code></pre></figure>
 
 <p><img src="/assets/s4.png" alt="fourth summ" class="summary-image" /></p>
 
-<p>Our rsquared value has stayed just as strong as before at .9871 so our model is good at predicting the data. The difference is now, x2 x2squared, and age are significant predictors. At this point we can be very satified with the model we have chosen to predict our data.</p>
+<p>Our Rsquared value has stayed just as strong as before at .9871 so our model is good at predicting the data. The difference is now, x2 x2squared, and age are significant predictors. At this point we can be very satisfied with the model we have chosen to predict our data.</p>
 
   </div>
 
@@ -226,7 +226,7 @@ The first is studentized residuals which follow a t table with n-k-1 degrees of 
           Danielle Yoseloff
         </li>
         <li class="user-shortbio">
-  I'm an aspiring data scientist with a BA in Mathamatics and Statistics
+  Salt Lake City
 </li>
       </ul>
   </div>

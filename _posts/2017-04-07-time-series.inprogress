@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "Predicting the Utah Housing Market"
+date:   2017-04-07 20:44:03 -0500
+categories: R time series analysis graphs HPI Utah prediction
+summary: Choosing models that best predict time series data in R.
+---
+My goal is to preict where the Utah housing market is headed and at what rate. To do this I will choose several time series models that appear to fit the data then compare their accuracy.
+### The Data 
+The Federal Housing Finance Agency meticulously tracks the US housing market and makes the information available [online](https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index-Datasets.aspx#mpo). The [dataset](http://www.fhfa.gov/HPI_master.csv)  that best suits my needs is the first one on the page titled "Data" under the category “Master HPI Data (Appends Quarterly and Monthly Data)” 
+
+The original dataset includes 10 variables: HPI type, HPI flavor, Frequency, Level, Place Name, Place ID, Year, Period, and Index of Seasonally adjusted, Index not seasonally adjusted. To clean the data we are mostly removing unwanted information but for more common practices on how to clean datasets in R check out [Cleaning Data](https://dyoseloff.github.io/r/cleaning/data/2016/11/23/work-force.html). In this case I took the following steps:
+1. Set the place Id variable to UT
+2. Set the HPI flavor variable to all-transactions 
+3. Set the HIP type variable to traditional
+4. Remove Index of Seasonally adjusted variable 
+5. Remove redundant variable columns: HPI type, HPI flavor, Frequency, Level, 	Place Name, Place ID, Year, Period. 
+
+The clean dataset is quarterly unadjusted Housing Price Indexes from the year 1975-2016 for Utah, where HPIs are traditional and all-transactions. There are 168 observations, one HPI value per quarter for 42 years. The data is sufficiently long to draw conclusions about the next few periods. 
+
+### Model Selection
+
+**1. First Look**
+
+Ideally, time series data satisfies the condition of stationarity. Stationarity basically means the data has a constant mean, constant variance, and constant autocorrelation. The plot of the time series data shows a positive linear trend which is a red flag because we see the data does not have a constant mean. We have a feeling the data will be nonstationary. There is no real change in variance across time so this condition seems good. 
+
+Now looking at the autocorrelation function (ACF) graph, the decay is very slow and never reaches blow significance. This is an unusal structure for the graph which indicated nonstationarty. The partial autocorrelation function (PACF) graph is almost 1 at lag 1 and insignificant everywhere else, another pattern which indicates nonstationarity. 
+
+**2. Transformations**
+
+The conditions of nonstationarity must be corrected for. When a time series data has a noncontant variance, it is corrected for by applying a Box-Cox transformation. In this case we do not need to apply a transformation because our initial look at the graph did not inticate this issue. 
+
+**3. Testing Statioinarity**
+
+To test stationarity is essentially testing for the presence of a unit root. For an Augmented Dickey-Fuller test the null hypothesis is nonstationarity and the alternative hypothesis is stationarity. In this case the p-value is .04848, which is less than .05 so, we conclude the data is stationary. This contradicts the behavior of the graphs. 
+
+For a second opinion, I ran a KPSS test.  For this test the null hypothesis is stationarity and the alternative is non-stationarity. Here, the p-value is less than .01 so we confirm the presence of a unit root. Since the results of these tests conflict, I will pursue both the instance of stationarity and non-stationarity to carry out model selection. 
+
+**4. Assume Stationarity**
+##### A. Classical Decomposition

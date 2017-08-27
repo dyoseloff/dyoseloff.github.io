@@ -67,7 +67,7 @@
 
     
       <span class="site-pitch">
-  Boston University Student
+  Boston University Alum
 </span>
     
 
@@ -95,7 +95,7 @@
     <div class="wrapper">
       <h1 class="post-title" itemprop="name headline">Log Transformation</h1>
       <p class="post-meta">
-        <time datetime="2016-10-23T21:44:03-04:00" itemprop="datePublished">
+        <time datetime="2016-10-23T19:44:03-06:00" itemprop="datePublished">
           
 
   Oct 23, 2016
@@ -116,11 +116,11 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>In modern statistical practice, methods to analyse linear data are much more understood than nonlinear data. So, ideally the data you’re working with has a linear trend. When it does not, what can be done? Transformations. Some common types of transformations include: log, square root, cube root, and reciprocal. While there is broad criteria to determine which method of transformation should be used, it takes years of experience to master the art.</p>
+    <p>In modern statistical practice, methods to analyze linear data are much more understood than nonlinear data. So, ideally the data you’re working with has a linear trend. When it does not, what can be done? Transformations. Some common types of transformations include: log, square root, cube root, and reciprocal. While there is broad criteria to determine which method of transformation should be used, it takes years of experience to master the art.</p>
 
-<p>Here, we will use R to look at a smimple linear regression, identify it as nonlinear, apply a log transformation, and confirm our changes have improved the data.</p>
+<p>Here, we will use R to look at a simple linear regression, identify it as nonlinear, apply a log transformation, and confirm our changes have improved the data.</p>
 
-<p>Let’s use the UN11 data from the <a href="https://cran.r-project.org/web/packages/alr4/index.html">alr4 package</a>. Remeber you only need to install the package the first time you use it. The last line of code will provide a detailed description of the interpretation of the data set.</p>
+<p>Let’s use the UN11 data from the <a href="https://cran.r-project.org/web/packages/alr4/index.html">alr4 package</a>. Remember you only need to install the package the first time you use it. The last line of code will provide a detailed description of the interpretation of the data set.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">install.packages</span><span class="p">(</span><span class="s2">"alr4"</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">alr4</span><span class="p">)</span><span class="w">
@@ -130,7 +130,7 @@
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">ppgdp</span><span class="p">,</span><span class="w"> </span><span class="n">UN11</span><span class="o">$</span><span class="n">fertility</span><span class="p">)</span></code></pre></figure>
 
-<p>Here we see the data exponentially decreasing. This is a problem because the exponential function is most certianly not linear.
+<p>Here we see the data exponentially decreasing. This is a problem because the exponential function is most certainly not linear.
 <img src="/assets/plot.png" alt="plot" /></p>
 
 <p>Another way to check for linearity of variables is to look at their histograms. Linear data will conform to a normal bell curve while  nonlinear data will have skewed histograms.</p>
@@ -153,7 +153,7 @@
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">hist</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">ppgdp</span><span class="p">),</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="s2">"Histogram of Log Ppgdp"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'log(ppgdp)'</span><span class="p">)</span><span class="w">
 </span><span class="n">hist</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">UN11</span><span class="o">$</span><span class="n">fertility</span><span class="p">),</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of Log Fertility"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"log(fertility)"</span><span class="p">)</span></code></pre></figure>
 
-<p>We can see a great improvment to the skewdness of the histograms. While they don’t look like completly standard bell curves, the transformation has greatly changed the behavior of the data to act more linear. 
+<p>We can see a great improvement to the skewedness of the histograms. While they don’t look like completely standard bell curves, the transformation has greatly changed the behavior of the data to act more linear. 
 <img src="/assets/histlog.png" alt="loghist" /></p>
 
   </div>
@@ -172,7 +172,7 @@
           Danielle Yoseloff
         </li>
         <li class="user-shortbio">
-  I'm an aspiring data scientist with a BA in Mathamatics and Statistics
+  Salt Lake City
 </li>
       </ul>
   </div>

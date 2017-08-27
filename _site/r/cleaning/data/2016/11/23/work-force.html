@@ -67,7 +67,7 @@
 
     
       <span class="site-pitch">
-  Boston University Student
+  Boston University Alum
 </span>
     
 
@@ -95,7 +95,7 @@
     <div class="wrapper">
       <h1 class="post-title" itemprop="name headline">Cleaning Data</h1>
       <p class="post-meta">
-        <time datetime="2016-11-23T20:44:03-05:00" itemprop="datePublished">
+        <time datetime="2016-11-23T18:44:03-07:00" itemprop="datePublished">
           
 
   Nov 23, 2016
@@ -116,14 +116,14 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>There is no lack of data on the internet but to make something useful of it is 90% of the battle. Here, I’m going to step through common practice of cleaning a large data set in R. The process I will use to clean the data is based off conventions introduced in <a href="http://vita.had.co.nz/papers/tidy-data.pdf">an article</a> by R expert Hadley Wickham. Ultimatley, we’d like to have a data set we can ealsiy work with to pull interesting results.</p>
+    <p>There is no lack of data on the internet but to make something useful of it is 90% of the battle. Here, I’m going to step through common practice of cleaning a large data set in R. The process I will use to clean the data is based off conventions introduced in <a href="http://vita.had.co.nz/papers/tidy-data.pdf">an article</a> by R expert Hadley Wickham. Ultimately, we’d like to have a data set we can easily work with to pull interesting results.</p>
 
-<p>I choose a large messy <a href="https://catalog.data.gov/dataset/job-patterns-for-minorities-and-women-in-private-industry-2009-eeo-1-cbsa-aggregate-by-nai/resource/068dfd37-acbd-450d-aa52-cdc75caa0edf">data set</a> to explore job patterns for minorities and women in private industries during 2009. Government data sets are good to use when practicing data cleaning skills because the flies are typcially large and messy. 
-To start the cleaning process I read the data into R</p>
+<p>I chose a large messy <a href="https://catalog.data.gov/dataset/job-patterns-for-minorities-and-women-in-private-industry-2009-eeo-1-cbsa-aggregate-by-nai/resource/068dfd37-acbd-450d-aa52-cdc75caa0edf">data set</a> to explore job patterns for minorities and women in private industries during 2009. Government data sets are good to use when practicing data cleaning skills because the files are typically large and messy. 
+To start the cleaning process, I read the data into R</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"YEAR09_CBSA_NAC3.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">";"</span><span class="p">)</span></code></pre></figure>
 
-<p>Step 1: I need to rename columns to accuratly reflect their data. I did the majority of this manually. (I know this is not the most efficient way but it’s one of my first R projects)</p>
+<p>Step 1: I need to rename columns to accurately reflect their data. I did the majority of this manually. (I know this is not the most efficient way but it’s one of my first R projects)</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="nf">names</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Area"</span><span class="w">
 </span><span class="nf">names</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Industry"</span><span class="w">
@@ -134,16 +134,16 @@ To start the cleaning process I read the data into R</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">Area</span><span class="o">==</span><span class="s1">'Boston-Cambridge-Quincy, MA-NH'</span><span class="p">)</span></code></pre></figure>
 
-<p>Consequentally, we will want to make changes such as removing the city, state column and removing columns where the notation was not in the legend.</p>
+<p>Consequentially, we will want to make changes such as removing the city, state column and removing columns where the notation was not in the legend.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">588</span><span class="o">:</span><span class="m">598</span><span class="p">,</span><span class="w"> </span><span class="m">599</span><span class="p">,</span><span class="w"> </span><span class="m">600</span><span class="p">)]</span></code></pre></figure>
 
-<p>Step 2: At this point our obervations are represented as columns; however, convention is for each obervation to be a row. The process of turning columns into rows is called ‘melting’. So, now I will melt the data using the <a href="https://cran.r-project.org/web/packages/reshape/index.html">reshape</a> package written by Hadley Wickham. Similarly, if we needed to turn columns into rows</p>
+<p>Step 2: At this point our observations are represented as columns; however, convention is for each observation to be a row. The process of turning columns into rows is called ‘melting’. So, now I will melt the data using the <a href="https://cran.r-project.org/web/packages/reshape/index.html">reshape</a> package written by Hadley Wickham.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">reshape</span><span class="p">)</span><span class="w">
 </span><span class="n">melted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Industry"</span><span class="p">))</span></code></pre></figure>
 
-<p>Step 3: Another characteristic of tidy data is that each variable represnets a column. Here we have information of several variables contained in one column. So, the column should be seperated into several. In this example the variables: race, gender, type of data, and position are all in one column. I will use another Hadley Whickham package <a href="https://cran.r-project.org/web/packages/tidyr/index.html">tidyr</a> to create four individual coulmns from the one.</p>
+<p>Step 3: Another characteristic of tidy data is that each variable represents a column. Here we have information of several variables contained in one column. So, the column should be separated into several. In this example the variables: race, gender, type of data, and position are all in one column. I will use another Hadley Whickham package <a href="https://cran.r-project.org/web/packages/tidyr/index.html">tidyr</a> to create four individual columns from the one.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
 </span><span class="n">split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">separate</span><span class="p">(</span><span class="n">melted</span><span class="p">,</span><span class="w"> </span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Race"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Gender"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Type"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Position"</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">":"</span><span class="p">)</span></code></pre></figure>
@@ -152,7 +152,7 @@ To start the cleaning process I read the data into R</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></code></pre></figure>
 
-<p>Step 5: The final major characteristic for tidy data is for each observational unit to for a table. In this case we have a column for type of data in which there are two types: number total and percent. So, let’s make two tables instead of having one.</p>
+<p>Step 5: The final major characteristic for tidy data is for each observational unit to be a table. In this case we have a column for type of data in which there are two types: number total and percent. So, let’s make two tables instead of having one.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">totals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">Type</span><span class="o">==</span><span class="s2">"Total"</span><span class="p">)</span><span class="w">
 </span><span class="n">percentage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">Type</span><span class="o">==</span><span class="s2">"PoW"</span><span class="p">)</span></code></pre></figure>
@@ -164,9 +164,9 @@ To start the cleaning process I read the data into R</p>
 
 <p>Congratulations, our data set is clean! It’s time to explore our data.</p>
 
-<p>First, Let’s look at a breakdown of number of workers by gender and position. These results visulaized can provide intuition about trends and important questions such as: Are there significantly less female senior managers than male?</p>
+<p>First, Let’s look at a breakdown of number of workers by gender and position. These results visualized can provide intuition about trends and important questions such as: Are there significantly less female senior managers than male?</p>
 
-<p>Here we use ggplot to graph a subsetted version of our data. We want a subsetted version which exculds information that would distort our graph. What questions would you ask based on the graph we’ve extrapolated?</p>
+<p>Here we use ggplot to graph a subset version of our data. We want a subset version which excludes information that would distort our graph. What questions would you ask based on the graph we’ve extrapolated?</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">totalOverallByGender</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">totals</span><span class="p">,</span><span class="w"> </span><span class="n">Gender</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Overall"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Race</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Minority"</span><span class="p">)</span><span class="w">
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalOverallByGender</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Position</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">Gender</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
@@ -186,7 +186,7 @@ To start the cleaning process I read the data into R</p>
 
 <p><img src="/assets/food.png" alt="map" /></p>
 
-<p>There are countless questions that can be asked using the information stored in large data sets. Using the conventions of tidy data makes a world of difference in being able to answer those questions. Ultimatley, we have data that is easy to work with as we take the next steps to answer these questions using statisical methods.</p>
+<p>There are countless questions that can be asked using the information stored in large data sets. Using the conventions of tidy data makes a world of difference in being able to answer those questions. Ultimately, we have data that is easy to work with as we take the next steps to answer these questions using statistical methods.</p>
 
 <p>For more details check it out on <a href="https://github.com/dyoseloff/MA415-Midterm">github</a></p>
 
@@ -206,7 +206,7 @@ To start the cleaning process I read the data into R</p>
           Danielle Yoseloff
         </li>
         <li class="user-shortbio">
-  I'm an aspiring data scientist with a BA in Mathamatics and Statistics
+  Salt Lake City
 </li>
       </ul>
   </div>
