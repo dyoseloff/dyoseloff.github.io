@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <title>Forecasting Time Series Data | 
+  Danielle Yoseloff
+</title>
+  
+
+  
+  <meta name="description" content="Comparing forecasting methods for time series data with model selection in R.">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://localhost:4000/r/acf/pacf/holt/winters/train/testing/seasonal/2017/03/09/forecasting.html">
+  <link rel="alternate" type="application/rss+xml" title="
+  Danielle Yoseloff
+" href="/feed.xml">
+
+  
+  
+  <meta name="theme-color" content="#ffffff">
+
+  
+
+  
+
+  
+
+  
+
+  
+</head>
+
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <div class="site-header-float">
+    
+
+
+
+<a class="site-title with-pitch" href="
+
+
+
+
+/
+">
+  
+    
+  Danielle Yoseloff
+
+  
+</a>
+
+    
+      <span class="site-pitch">
+  Boston University Alum
+</span>
+    
+
+    
+    </div>
+
+    
+    
+
+  </div>
+
+</header>
+
+
+    
+    <main class="post-content" aria-label="Content">
+    
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  
+  <header class="post-header">
+  
+    
+    <div class="wrapper">
+      <h1 class="post-title" itemprop="name headline">Forecasting Time Series Data</h1>
+      <p class="post-meta">
+        <time datetime="2017-03-09T18:44:03-07:00" itemprop="datePublished">
+          
+
+  Mar 9, 2017
+
+
+        </time>
+        
+
+
+
+
+         • 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Danielle Yoseloff</span></span>
+        
+      </p>
+      <h3 class="post-summary">Comparing forecasting methods for time series data with model selection in R.</h3>
+    </div>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Let’s look at the time series dataset in R called <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/co2.html">co2</a>. This dataset measures monthly Mauna Loa atmospheric CO2 concentration from 1959 to 1997 totaling 468 observations.</p>
+
+<p>We will be forecasting the data using three methods then comparing the methods of forecast. How do you compare methods or their accuracy? We will slip the data up into two parts. The first 1 thorugh 444 oberservations will be called the training data. This is the portion of the data we will base our forecasting on. The last 5% of the data (ie. the last 24 observations) is called the test data. The training data will be used to predict the last 24 observations, then predicted values and test data can be compared to measure accuracy of the model. For what we want to do we need additional packages. If you have never before worked with them, remember to intall the packages before you can load them into your library.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">TSA</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">fArma</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">forecast</span><span class="p">)</span><span class="w">
+</span><span class="n">train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">co2</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">444</span><span class="p">]</span><span class="w">
+</span><span class="n">test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">co2</span><span class="p">[</span><span class="m">445</span><span class="o">:</span><span class="m">468</span><span class="p">]</span></code></pre></figure>
+
+<p>Let’s take a look at the data.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot.ts</span><span class="p">(</span><span class="n">co2</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">acf</span><span class="p">(</span><span class="n">co2</span><span class="p">)</span><span class="w">
+</span><span class="n">pacf</span><span class="p">(</span><span class="n">co2</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/assets/Forecast/image1.png" alt="data plot" />
+The time series data has a positive linear trend. There are no issues with heteroscedasticity. The constant up and down pattern indicates a seasonal trend of period 12.</p>
+
+<p><img src="/assets/Forecast/image2.png" alt="acf pacf" />
+This is a unique ACF PACF combination that indicates nonstationarity. The ACF decays to zero at a very slow rate while the PACF is only really significant at lag 1. We expected to see signs of nonstationarity because of the non constant mean we previously noted.</p>
+
+<h3 id="forecast-1">Forecast 1</h3>
+
+<p>The first method of forecasting we will try is called subset selection method. This is a computer method where we input the maximum AR and MA orders we believe may explain the model, here we will choose 15 for both. The computer program then runs through all possible ARMA model cominiations of those coefficients and returns the most probable models based on thier BIC values.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">sub1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">armasubsets</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="m">12</span><span class="p">)),</span><span class="n">nar</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="n">nma</span><span class="o">=</span><span class="m">15</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">sub1</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/assets/Forecast/image4.png" alt="acf pacf" />
+Based on our output, we believe the best model is an ARIMA(9,1,12). The 1 indicates that we applied a differencing to the data. The AR component is 9 because that is the highest order cofficient however there is also a nonzero coefficient value for phi 1. Similarly, the MA component is 12 because that is the highest order cofficient however there is also a nonzero coefficient value for theta 2. The Arima function below gives us the values for the coefficients of the ARIMA model.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">arma1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">9</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">12</span><span class="p">),</span><span class="w"> </span><span class="n">seasonal</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="n">fixed</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">7</span><span class="p">),</span><span class="kc">NA</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="kc">NA</span><span class="p">,</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">9</span><span class="p">),</span><span class="kc">NA</span><span class="p">))</span><span class="w">
+</span><span class="n">arma1</span></code></pre></figure>
+
+<p><img src="/assets/Forecast/image5.png" alt="acf pacf" /></p>
+
+<p>WE can see below that the forecast isnt doing a very good job at following the pattern of the data in the prediction. Additinally the confidence intervals are verly large. While all of the test data points are in the respective confidence intervals, this model does not look ideal. 
+acf(diff(diff(train,12)),lag.max=40,main=”Differenced co2”)
+pacf(diff(diff(train,12)),lag.max=40,main=”Differenced co2”)</p>
+
+<p><img src="/assets/Forecast/image6.png" alt="ci graph" />
+<img src="/assets/Forecast/image7.png" alt="ci" /></p>
+
+<h3 id="forecast-2">Forecast 2</h3>
+
+<p>The next method of forecasting will be to identify potential SARIMA models from the ACF and PACF. Then fit the candidate models nad compare their AICc values to choose a final SARIMA model to run the forecast on.</p>
+
+<p>We need to look at the ACF/PACF of the differenced data.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ddtrain</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">diff</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">train</span><span class="p">),</span><span class="m">12</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">acf</span><span class="p">(</span><span class="n">ddtrain</span><span class="p">,</span><span class="n">lag.max</span><span class="o">=</span><span class="m">40</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s2">"Differenced co2"</span><span class="p">)</span><span class="w">
+</span><span class="n">pacf</span><span class="p">(</span><span class="n">ddtrain</span><span class="p">,</span><span class="n">lag.max</span><span class="o">=</span><span class="m">40</span><span class="p">,</span><span class="n">main</span><span class="o">=</span><span class="s2">"Differenced co2"</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/assets/Forecast/image8.png" alt="acf pacf" />
+Both the ACF and PACF decay to zero for the first few lags which indicates that possible models could be AR(1) or MA(1) or ARMA(1,1). As for the seasonal component, the ACF cuts off after lag 1 (aka lag 12 but this is the first seasonal lag) and the PACF decays to zero at the seasonal lags (every twelfth lag). These suggest an MA(1) model is appropriate for the seasonal component.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">Arima</span><span class="p">(</span><span class="n">ddtrain</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">seasonal</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w">
+</span><span class="n">Arima</span><span class="p">(</span><span class="n">ddtrain</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="n">seasonal</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w">
+</span><span class="n">Arima</span><span class="p">(</span><span class="n">ddtrain</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">seasonal</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/assets/Forecast/image9.png" alt="acf pacf" />
+Of the three models we tested, SARIMA(1,1,1)x(0,1,1)[12] performed best with the lowest AICc value of 374.47. Below we see the model is not very good at predicting the testing data. The model does not keep the same seasonal pattern and is not even behaving in a positive linear manner. The confidence intervals are also very large. 
+<img src="/assets/Forecast/image10.png" alt="acf pacf" />
+<img src="/assets/Forecast/image11.png" alt="acf pacf" /></p>
+
+<h3 id="forecast-3">Forecast 3</h3>
+
+<p>The third method of forecasting is called a Holt-Winters seasonal forecast. We specify an additive seasonal trend instead of multiplicative because there is no heteroscedasticity. The “gamma = T” condition specifies that there is a seasonal component to address. The Holt-Winters is a form of double exponential smoothing that is good to use when there is a linear trend and/or a known seasonal component.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">hw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">HoltWinters</span><span class="p">(</span><span class="n">ts</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">frequency</span><span class="o">=</span><span class="m">12</span><span class="p">),</span><span class="n">gamma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">seasonal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"additive"</span><span class="p">)</span><span class="w">
+</span><span class="n">forecast</span><span class="p">(</span><span class="n">hw</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">forecast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">))</span></code></pre></figure>
+
+<p>The Holt-Winters is a good predictor. The trend and seaonality patters are consistant with the previous data and the confidence intervals are narrow. Additionally, all 24 testing data points lie within the 95% prediction interval. 
+<img src="/assets/Forecast/image12.png" alt="acf pacf" />
+<img src="/assets/Forecast/image13.png" alt="acf pacf" /></p>
+
+<h3 id="comparing-forecastings">Comparing Forecastings</h3>
+<p>To compare the forecast we will use two common criteria that quantify how much error the model produced. The lower the RMSE and MAPE the better the model was at predicting the testing data.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">HWfcast1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">forecast</span><span class="p">(</span><span class="n">arma1</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">)</span><span class="w">
+</span><span class="n">HWerr1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test</span><span class="o">-</span><span class="n">HWfcast1</span><span class="o">$</span><span class="n">mean</span><span class="w">
+</span><span class="n">HWrmse1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">HWerr1</span><span class="o">^</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">HWmape1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">((</span><span class="n">HWerr1</span><span class="o">*</span><span class="m">100</span><span class="p">)</span><span class="o">/</span><span class="n">test</span><span class="p">))</span><span class="w">
+</span><span class="n">HWrmse1</span><span class="w">
+</span><span class="n">HWmape1</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ff2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">seasonal</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w">
+</span><span class="n">HWfcast2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">forecast</span><span class="p">(</span><span class="n">ff2</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">)</span><span class="w">
+</span><span class="n">HWerr2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test</span><span class="o">-</span><span class="n">HWfcast2</span><span class="o">$</span><span class="n">mean</span><span class="w">
+</span><span class="n">HWrmse2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">HWerr2</span><span class="o">^</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">HWmape2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">((</span><span class="n">HWerr2</span><span class="o">*</span><span class="m">100</span><span class="p">)</span><span class="o">/</span><span class="n">test</span><span class="p">))</span><span class="w">
+</span><span class="n">HWrmse2</span><span class="w">
+</span><span class="n">HWmape2</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ff3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">HoltWinters</span><span class="p">(</span><span class="n">ts</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">frequency</span><span class="o">=</span><span class="m">12</span><span class="p">),</span><span class="n">gamma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="n">seasonal</span><span class="o">=</span><span class="s2">"additive"</span><span class="p">)</span><span class="w">
+</span><span class="n">HWfcast3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">forecast</span><span class="p">(</span><span class="n">ff3</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">)</span><span class="w">
+</span><span class="n">HWerr3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test</span><span class="o">-</span><span class="n">HWfcast3</span><span class="o">$</span><span class="n">mean</span><span class="w">
+</span><span class="n">HWrmse3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">HWerr3</span><span class="o">^</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">HWmape3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">((</span><span class="n">HWerr3</span><span class="o">*</span><span class="m">100</span><span class="p">)</span><span class="o">/</span><span class="n">test</span><span class="p">))</span><span class="w">
+</span><span class="n">HWrmse3</span><span class="w">
+</span><span class="n">HWmape3</span></code></pre></figure>
+
+<p><img src="/assets/Forecast/image14.png" alt="acf pacf" />
+ As we expected the Holt- Winters forecasting was the best. Next, the ARIMA(9,1,12) model prformed slightly better than the SARIMA(1,1,1)x(0,1,1)[12] model. A second look a the forecasting graphs for these two models confirms their performances. The SARIMA model had no trend or seasonal pattern while the ARIMA model did have a slight seasonal pattern in its prediction.</p>
+
+
+  </div>
+
+  
+  <div class="post-author">
+    
+      <a href="
+  
+">
+        <img class="user-picture" src="https://github.com/dyoseloff.png" alt="Danielle Yoseloff">
+      </a>
+    
+      <ul class="user-info">
+        <li class="user-name">
+          Danielle Yoseloff
+        </li>
+        <li class="user-shortbio">
+  Salt Lake City
+</li>
+      </ul>
+  </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    
+
+<footer class="site-footer">
+
+  <div class="wrapper">
+
+      <ul class="footer-col footer-col-1">
+        <li>
+          
+
+
+
+<a class="" href="
+
+
+
+
+/
+">
+  
+    
+  Danielle Yoseloff
+
+  
+</a>
+
+
+        
+
+      </ul>
+
+      
+        <nav>
+        
+
+<span class="nav-list-title">Menu:</span>
+<ul class="nav-list footer-col footer-col-2">
+
+
+
+
+
+
+  
+  <li><a class="page-link" href="/about/">About</a></li>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+</ul>
+
+        
+<span class="contact-list-title">
+  Links :
+</span>
+<ul class="contact-list single-col">
+  <li>
+    
+<a href="/feed.xml" title="RSS"><span class="icon icon--feed"><svg fill="#000000" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6.18" cy="17.82" r="2.18"/>
+    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+</svg>
+</span>
+  <span class="username">
+    RSS feed
+  </span>
+</a>
+
+
+  </li>
+
+  
+  <li>
+    <a target="_blank" href="https://github.com/dyoseloff" title="Github"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">dyoseloff</span></a>
+
+  </li>
+  
+
+  
+
+  
+
+  
+
+</ul>
+
+        </nav>
+      
+
+    <div class="bottom">
+
+      
+      
+
+      <div class="tech">
+        <a target="_blank" href="https://jekyllrb.com/">Jekyll</a> + <a target="_blank" href="https://github.com/gaalcaras/academic">Academic</a>
+        
+        + <a target="_blank" href="https://github.com/dyoseloff/dyoseloff.github.io">Source</a>
+        
+      </div>
+
+      <div class="legal">
+      ©
+      
+
+
+
+<a class="" href="
+
+
+
+
+/
+">
+  
+    
+  Danielle Yoseloff
+
+  
+</a>
+
+      
+      
+      
+      (2017)
+      
+      
+     </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+
+  </body>
+
+</html>

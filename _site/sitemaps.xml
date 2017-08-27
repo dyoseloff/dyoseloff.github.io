@@ -69,18 +69,18 @@
   
   
   <url>
-    <loc>http://localhost:4000/r/time/series/analysis/graphs/hpi/utah/prediction/2017/04/07/time-series.inprogress</loc>
+    <loc>http://localhost:4000/r/acf/pacf/holt/winters/train/testing/seasonal/2017/03/09/forecasting.html</loc>
     
     
     <xhtml:link
                 rel="alternate"
                 hreflang=""
-                href="http://localhost:4000/r/time/series/analysis/graphs/hpi/utah/prediction/2017/04/07/time-series.inprogress"
+                href="http://localhost:4000/r/acf/pacf/holt/winters/train/testing/seasonal/2017/03/09/forecasting.html"
                 />
     
     
     
-    <lastmod>2017-04-07T19:44:03-06:00</lastmod>
+    <lastmod>2017-03-09T18:44:03-07:00</lastmod>
     
     <changefreq>weekly</changefreq>
     
