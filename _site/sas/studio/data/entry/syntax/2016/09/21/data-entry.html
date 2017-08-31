@@ -8,17 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <title>Choosing a Time Series Model  | 
+  <title>Data Entry SAS | 
   Danielle Yoseloff
 </title>
   
 
   
-  <meta name="description" content="Suggest a model for a time series dataset in R.">
+  <meta name="description" content="Entering data in SAS Studio.">
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://localhost:4000/r/acf/pacf/transformation/2017/01/18/time-series-plots.html">
+  <link rel="canonical" href="http://localhost:4000/sas/studio/data/entry/syntax/2016/09/21/data-entry.html">
   <link rel="alternate" type="application/rss+xml" title="
   Danielle Yoseloff
 " href="/feed.xml">
@@ -93,12 +93,12 @@
   
     
     <div class="wrapper">
-      <h1 class="post-title" itemprop="name headline">Choosing a Time Series Model </h1>
+      <h1 class="post-title" itemprop="name headline">Data Entry SAS</h1>
       <p class="post-meta">
-        <time datetime="2017-01-18T18:44:03-07:00" itemprop="datePublished">
+        <time datetime="2016-09-21T19:44:03-06:00" itemprop="datePublished">
           
 
-  Jan 18, 2017
+  Sep 21, 2016
 
 
         </time>
@@ -111,47 +111,42 @@
           <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Danielle Yoseloff</span></span>
         
       </p>
-      <h3 class="post-summary">Suggest a model for a time series dataset in R.</h3>
+      <h3 class="post-summary">Entering data in SAS Studio.</h3>
     </div>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>In this post I will look at common graphs to analyze a time series dataset covering topics such as stationarity, transformation, ACF plots, and PACF plots.</p>
+    <p>The format of entering data into SAS begins with the “data” command where you create the name of your data. Then comes the “input” command where you create the names of your variables. Next is the “cards” command which is an indtroduction that says ‘Hey, here’s the data!’. Then the actual data is entered. And finally a “run” command indicates the data entry is complete.</p>
 
-<p>Let’s look at the dataset built in R called <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sunspot.year.html">sunspot.year</a>. It is a time series dataset that records the yearly number of sunspots from 1700 to 1988.</p>
+<p>Let’s say we have data for an experiment where we are trying to determine if a persons age influences the number of tries it takes them to complete a task. In this situation we call our independedent variable Age and our dependent variable Attempts.</p>
 
-<p>First, we should take a look at the data.</p>
+<p>By default the ‘input’ command specifies that our first column of data will be Ages and the second column of data is Attempts (following the order of the input statement).</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot.ts</span><span class="p">(</span><span class="n">sunspot.year</span><span class="p">,</span><span class="n">ylab</span><span class="o">=</span><span class="s2">"Number of Sunspots"</span><span class="p">)</span><span class="w">
-</span><span class="n">title</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sunspots.year"</span><span class="p">)</span></code></pre></figure>
+<p><img src="/assets/SAS1/1.png" alt="plot" /></p>
 
-<p><img src="/assets/TS1/image1.png" alt="data plot" />
-It looks like as the years go by, the average number of sunspots is increasing. In other words there is a positive linear trend, which can also be prefered to as a non constant mean. The variance also appears to be increasing over time. The non constant mean and non constant variance are both indicators that the data is non statioinary.</p>
+<p>Now let’s say we want the data to be expressed in a more compact manner. The ‘@@’ command added to the end of the ‘input’ statment indicates the data will be read differently. The data will now be read one Age value then one Attempt value so on. It is easier to read the data by putting a double space beween the age and attempt pairings however it is not necessary.</p>
 
-<p>Time series data needs to be made statioinary before we can judge what model to fit the data with. A way to correct for a non constant mean is to apply a square root transformation to the data. So, let’s do this and reassess the plotted data</p>
+<p><img src="/assets/SAS1/2.png" alt="plot" /></p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">newsunspot</span><span class="o">=</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">sunspot.year</span><span class="p">)</span><span class="w">
-</span><span class="n">plot.ts</span><span class="p">(</span><span class="n">newsunspot</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="w"> </span><span class="s2">"Square Root Number of Sunspots"</span><span class="p">)</span><span class="w">
-</span><span class="n">title</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Transformed sunspots.year"</span><span class="p">)</span></code></pre></figure>
+<p>What if the experiment was changed a little bit. Instead of being continuous let let’s say the independent variable was descrete. So, the subjects were given an alotted time to complete the task at at the end of the time, either a YES or  No was recorded depending if they completed the task.</p>
 
-<p><img src="/assets/TS1/image2.png" alt="data plot" /></p>
+<p>Now we have the variables Age and Completion. We need to specify that Completion is a non numberic value by following the variable name with the ‘$’ command. In this case we have created a new variable named Result which represents the dummy variable.</p>
 
-<p>The transformed data now appears to have a constant variance around 6. Additionally, there are no obvisous issues with the variance. The transformation was a success because the data now looks stationary.</p>
+<p><img src="/assets/SAS1/3.png" alt="plot" /></p>
 
-<p>Now that the data has been corrected to behave stationary, we can identify a model looking at the autocorrelation(ACF) and partial autocorrelation functions(PACF). Keep in mind only the ACF and PACF graphs otained from the transformed data are useful because they have been corrected. Note, the first line of code displays the graphs side by side for convienience.</p>
+<p>In another example we are comparing two laundry degerent brands: Best and Super. We are measuring the clean rating after being washed in cold, warm, and hot water.</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span><span class="w">
-</span><span class="n">acf</span><span class="p">(</span><span class="n">newsunspot</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s2">"Transformed sunspots.year"</span><span class="p">)</span><span class="w">
-</span><span class="n">pacf</span><span class="p">(</span><span class="n">newsunspot</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s2">"Transformed sunspots.year"</span><span class="p">)</span></code></pre></figure>
+<p>In this instance of data entry we have five variables in total. We entered data for Detergent and Temperature which we specified as non-numeric values and CleanRating. The other two variables BestCold and BestWarm were created as interaction variables. You could create your interaction vairable here and give it a name or in your ‘proc’ statement when you specify your model.</p>
 
-<p><img src="/assets/TS1/image3.png" alt="data plot" /></p>
+<p>Also note we have three conditions that need to be dummy coded for. There are a few differences in the sytax bettween haveing two in our previous example and 3 or more. Firstly, ‘then’ needs to be ‘then do;” and second, all condition lines need to be ended with ‘end’.</p>
 
-<p>The ACF corrosponds to the MA (moving average) component of the model, while the PACF corrosponds to the AR (autoregressive) component. Models be composed of both components or just one.</p>
+<p><img src="/assets/SAS1/4.png" alt="plot" /></p>
 
-<p>When the ACF graph has all lags significant while decaying to zero, this indicates an MA(0) component. Likewise, if the PACF was significant at all lags and decaying to zero, this would indicate AR(0). If both decay to zero inthis manner it would suggest a lower order ARMA model. But here we believe an MA(0)compnent. 
-The PACF of our data is highly significant at lag one and two but becomes insignificant at lag three onward. Because the PACF “cuts off” after lag 2 we believe an AR(2) component is the best fit.</p>
+<p>Another way to enter the data is below. This way looks much simpler but the way you enter the data depends on the kind of output you want. This method of entry is good for proc glm commands. The proc glm command does not need you tp specify the dummy coding because it will do it for you. On the other hand the “proc reg” command does not create the dummy variables. So, when you will be interested in a “proc reg” output you need to enter the data like above with the dummy coding specified.</p>
 
-<p>So, in this case the graphs indicate that the data follows an ARMA(2,0) also expressed as AR(2).</p>
+<p><img src="/assets/SAS1/5.png" alt="plot" /></p>
+
+<p>The most important thing to take away is that data entry can be tailored to your needs. If you know what commands you’ll use and information you would like to extrapolate, you can enter your data in such a way that it will make your goals more simple to attain.</p>
 
   </div>
 
