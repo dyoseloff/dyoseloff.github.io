@@ -16,9 +16,9 @@ plot.ts(sunspot.year,ylab="Number of Sunspots")
 title(main = "sunspots.year")
 {% endhighlight %}
 ![data plot](/assets/TS1/image1.png)
-It looks like as the years go by, the average number of sunspots is increasing. In other words there is a positive linear trend, which can also be prefered to as a non constant mean. The variance also appears to be increasing over time. The non constant mean and non constant variance are both indicators that the data is non statioinary. 
+It looks like as the years go by, the average number of sunspots is increasing. In other words, there is a positive linear trend, which can also be preferred to as a non-constant mean. The variance also appears to be increasing over time. The non-constant mean and non-constant variance are both indicators that the data is non stationary. 
 
-Time series data needs to be made statioinary before we can judge what model to fit the data with. A way to correct for a non constant mean is to apply a square root transformation to the data. So, let's do this and reassess the plotted data 
+Time series data needs to be made stationary before we can judge what model to fit the data with. A way to correct for a non-constant mean is to apply a square root transformation to the data. So, let's do this and reassess the plotted data 
 {% highlight r %}
 newsunspot=sqrt(sunspot.year)
 plot.ts(newsunspot, ylab= "Square Root Number of Sunspots")
@@ -26,9 +26,9 @@ title(main = "Transformed sunspots.year")
 {% endhighlight %}
 ![data plot](/assets/TS1/image2.png)
 
-The transformed data now appears to have a constant variance around 6. Additionally, there are no obvisous issues with the variance. The transformation was a success because the data now looks stationary. 
+The transformed data now appears to have a constant variance around 6. Additionally, there are no obvious issues with the variance. The transformation was a success because the data now looks stationary. 
 
-Now that the data has been corrected to behave stationary, we can identify a model looking at the autocorrelation(ACF) and partial autocorrelation functions(PACF). Keep in mind only the ACF and PACF graphs otained from the transformed data are useful because they have been corrected. Note, the first line of code displays the graphs side by side for convienience. 
+Now that the data has been corrected to behave stationary, we can identify a model looking at the autocorrelation(ACF) and partial autocorrelation functions(PACF). Keep in mind only the ACF and PACF graphs obtained from the transformed data are useful because they have been corrected. Note, the first line of code displays the graphs side by side for convenience. 
 {% highlight r %}
 par(mfrow=c(1,2))
 acf(newsunspot, main="Transformed sunspots.year")
