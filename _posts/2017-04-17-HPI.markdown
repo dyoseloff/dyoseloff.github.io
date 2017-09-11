@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Analyzing Utah Housing Market"
+date:   2017-04-17 20:44:03 -0500
+categories: R ACF PACF holt winters train testing seasonal HPI Housing 
+summary: Using time series data to predict HPI using R. 
+---
+
+For this time series data I explore all paths to select the model that best predicts the market. This includes several methods of model selection, model comparison, and forecasting.
+
+[Read document here](/assets/UtahHPI.pdf)

@@ -8,17 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <title>Choosing a Time Series Model  | 
+  <title>Analyzing Utah Housing Market | 
   Danielle Yoseloff
 </title>
   
 
   
-  <meta name="description" content="Suggest a model for a time series dataset in R.">
+  <meta name="description" content="Using time series data to predict HPI using R.">
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://localhost:4000/r/acf/pacf/transformation/2017/01/18/time-series-plots.html">
+  <link rel="canonical" href="http://localhost:4000/r/acf/pacf/holt/winters/train/testing/seasonal/hpi/housing/2017/04/17/HPI.html">
   <link rel="alternate" type="application/rss+xml" title="
   Danielle Yoseloff
 " href="/feed.xml">
@@ -93,12 +93,12 @@
   
     
     <div class="wrapper">
-      <h1 class="post-title" itemprop="name headline">Choosing a Time Series Model </h1>
+      <h1 class="post-title" itemprop="name headline">Analyzing Utah Housing Market</h1>
       <p class="post-meta">
-        <time datetime="2017-01-18T18:44:03-07:00" itemprop="datePublished">
+        <time datetime="2017-04-17T19:44:03-06:00" itemprop="datePublished">
           
 
-  Jan 18, 2017
+  Apr 17, 2017
 
 
         </time>
@@ -111,47 +111,14 @@
           <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Danielle Yoseloff</span></span>
         
       </p>
-      <h3 class="post-summary">Suggest a model for a time series dataset in R.</h3>
+      <h3 class="post-summary">Using time series data to predict HPI using R.</h3>
     </div>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>In this post I will look at common graphs to analyze a time series dataset covering topics such as stationarity, transformation, ACF plots, and PACF plots.</p>
+    <p>For this time series data I explore all paths to select the model that best predicts the market. This includes several methods of model selection, model comparison, and forecasting.</p>
 
-<p>Let’s look at the dataset built in R called <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sunspot.year.html">sunspot.year</a>. It is a time series dataset that records the yearly number of sunspots from 1700 to 1988.</p>
-
-<p>First, we should take a look at the data.</p>
-
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot.ts</span><span class="p">(</span><span class="n">sunspot.year</span><span class="p">,</span><span class="n">ylab</span><span class="o">=</span><span class="s2">"Number of Sunspots"</span><span class="p">)</span><span class="w">
-</span><span class="n">title</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sunspots.year"</span><span class="p">)</span></code></pre></figure>
-
-<p><img src="/assets/TS1/image1.png" alt="data plot" />
-It looks like as the years go by, the average number of sunspots is increasing. In other words, there is a positive linear trend, which can also be preferred to as a non-constant mean. The variance also appears to be increasing over time. The non-constant mean and non-constant variance are both indicators that the data is non stationary.</p>
-
-<p>Time series data needs to be made stationary before we can judge what model to fit the data with. A way to correct for a non-constant mean is to apply a square root transformation to the data. So, let’s do this and reassess the plotted data</p>
-
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">newsunspot</span><span class="o">=</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">sunspot.year</span><span class="p">)</span><span class="w">
-</span><span class="n">plot.ts</span><span class="p">(</span><span class="n">newsunspot</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="w"> </span><span class="s2">"Square Root Number of Sunspots"</span><span class="p">)</span><span class="w">
-</span><span class="n">title</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Transformed sunspots.year"</span><span class="p">)</span></code></pre></figure>
-
-<p><img src="/assets/TS1/image2.png" alt="data plot" /></p>
-
-<p>The transformed data now appears to have a constant variance around 6. Additionally, there are no obvious issues with the variance. The transformation was a success because the data now looks stationary.</p>
-
-<p>Now that the data has been corrected to behave stationary, we can identify a model looking at the autocorrelation(ACF) and partial autocorrelation functions(PACF). Keep in mind only the ACF and PACF graphs obtained from the transformed data are useful because they have been corrected. Note, the first line of code displays the graphs side by side for convenience.</p>
-
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span><span class="w">
-</span><span class="n">acf</span><span class="p">(</span><span class="n">newsunspot</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s2">"Transformed sunspots.year"</span><span class="p">)</span><span class="w">
-</span><span class="n">pacf</span><span class="p">(</span><span class="n">newsunspot</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s2">"Transformed sunspots.year"</span><span class="p">)</span></code></pre></figure>
-
-<p><img src="/assets/TS1/image3.png" alt="data plot" /></p>
-
-<p>The ACF corrosponds to the MA (moving average) component of the model, while the PACF corrosponds to the AR (autoregressive) component. Models be composed of both components or just one.</p>
-
-<p>When the ACF graph has all lags significant while decaying to zero, this indicates an MA(0) component. Likewise, if the PACF was significant at all lags and decaying to zero, this would indicate AR(0). If both decay to zero inthis manner it would suggest a lower order ARMA model. But here we believe an MA(0)compnent. 
-The PACF of our data is highly significant at lag one and two but becomes insignificant at lag three onward. Because the PACF “cuts off” after lag 2 we believe an AR(2) component is the best fit.</p>
-
-<p>So, in this case the graphs indicate that the data follows an ARMA(2,0) also expressed as AR(2).</p>
+<p><a href="/assets/UtahHPI.pdf">Read document here</a></p>
 
   </div>
 

@@ -118,7 +118,7 @@
   <div class="post-content" itemprop="articleBody">
     <p>Let’s look at the time series dataset in R called <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/co2.html">co2</a>. This dataset measures monthly Mauna Loa atmospheric CO2 concentration from 1959 to 1997 totaling 468 observations.</p>
 
-<p>We will be forecasting the data using three methods then comparing the methods of forecast. How do you compare methods or their accuracy? We will slip the data up into two parts. The first 1 thorugh 444 oberservations will be called the training data. This is the portion of the data we will base our forecasting on. The last 5% of the data (ie. the last 24 observations) is called the test data. The training data will be used to predict the last 24 observations, then predicted values and test data can be compared to measure accuracy of the model. For what we want to do we need additional packages. If you have never before worked with them, remember to intall the packages before you can load them into your library.</p>
+<p>We will be forecasting the data using three methods then comparing the methods of forecast. How do you compare methods or their accuracy? We will slip the data up into two parts. The first 1 thorough 444 observations will be called the training data. This is the portion of the data we will base our forecasting on. The last 5% of the data (i.e. the last 24 observations) is called the test data. The training data will be used to predict the last 24 observations, then predicted values and test data can be compared to measure accuracy of the model. For what we want to do we need additional packages. If you have never before worked with them, remember to install the packages before you can load them into your library.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">TSA</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">fArma</span><span class="p">)</span><span class="w">
@@ -137,33 +137,31 @@
 The time series data has a positive linear trend. There are no issues with heteroscedasticity. The constant up and down pattern indicates a seasonal trend of period 12.</p>
 
 <p><img src="/assets/Forecast/image2.png" alt="acf pacf" />
-This is a unique ACF PACF combination that indicates nonstationarity. The ACF decays to zero at a very slow rate while the PACF is only really significant at lag 1. We expected to see signs of nonstationarity because of the non constant mean we previously noted.</p>
+This is a unique ACF PACF combination that indicates nonstationarity. The ACF decays to zero at a very slow rate while the PACF is only really significant at lag 1. We expected to see signs of nonstationarity because of the non-constant mean we previously noted.</p>
 
 <h3 id="forecast-1">Forecast 1</h3>
 
-<p>The first method of forecasting we will try is called subset selection method. This is a computer method where we input the maximum AR and MA orders we believe may explain the model, here we will choose 15 for both. The computer program then runs through all possible ARMA model cominiations of those coefficients and returns the most probable models based on thier BIC values.</p>
+<p>The first method of forecasting we will try is called subset selection method. This is a computer method where we input the maximum AR and MA orders we believe may explain the model, here we will choose 15 for both. The computer program then runs through all possible ARMA model combinations of those coefficients and returns the most probable models based on their BIC values.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">sub1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">armasubsets</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="m">12</span><span class="p">)),</span><span class="n">nar</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="n">nma</span><span class="o">=</span><span class="m">15</span><span class="p">)</span><span class="w">
 </span><span class="n">plot</span><span class="p">(</span><span class="n">sub1</span><span class="p">)</span></code></pre></figure>
 
 <p><img src="/assets/Forecast/image4.png" alt="acf pacf" />
-Based on our output, we believe the best model is an ARIMA(9,1,12). The 1 indicates that we applied a differencing to the data. The AR component is 9 because that is the highest order cofficient however there is also a nonzero coefficient value for phi 1. Similarly, the MA component is 12 because that is the highest order cofficient however there is also a nonzero coefficient value for theta 2. The Arima function below gives us the values for the coefficients of the ARIMA model.</p>
+Based on our output, we believe the best model is an ARIMA(9,1,12). The 1 indicates that we applied a differencing to the data. The AR component is 9 because that is the highest order coefficient however there is also a nonzero coefficient value for phi 1. Similarly, the MA component is 12 because that is the highest order coefficient however there is also a nonzero coefficient value for theta 2. The Arima function below gives us the values for the coefficients of the ARIMA model.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">arma1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Arima</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">9</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">12</span><span class="p">),</span><span class="w"> </span><span class="n">seasonal</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="n">fixed</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">7</span><span class="p">),</span><span class="kc">NA</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="kc">NA</span><span class="p">,</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">9</span><span class="p">),</span><span class="kc">NA</span><span class="p">))</span><span class="w">
 </span><span class="n">arma1</span></code></pre></figure>
 
 <p><img src="/assets/Forecast/image5.png" alt="acf pacf" /></p>
 
-<p>WE can see below that the forecast isnt doing a very good job at following the pattern of the data in the prediction. Additinally the confidence intervals are verly large. While all of the test data points are in the respective confidence intervals, this model does not look ideal. 
-acf(diff(diff(train,12)),lag.max=40,main=”Differenced co2”)
-pacf(diff(diff(train,12)),lag.max=40,main=”Differenced co2”)</p>
+<p>We can see below that the forecast isn’t doing a very good job at following the pattern of the data in the prediction. Additionally the confidence intervals are very large. While all of the test data points are in the respective confidence intervals, this model does not look ideal.</p>
 
 <p><img src="/assets/Forecast/image6.png" alt="ci graph" />
 <img src="/assets/Forecast/image7.png" alt="ci" /></p>
 
 <h3 id="forecast-2">Forecast 2</h3>
 
-<p>The next method of forecasting will be to identify potential SARIMA models from the ACF and PACF. Then fit the candidate models nad compare their AICc values to choose a final SARIMA model to run the forecast on.</p>
+<p>The next method of forecasting will be to identify potential SARIMA models from the ACF and PACF. Then fit the candidate models and compare their AICc values to choose a final SARIMA model to run the forecast on.</p>
 
 <p>We need to look at the ACF/PACF of the differenced data.</p>
 
@@ -192,12 +190,12 @@ Of the three models we tested, SARIMA(1,1,1)x(0,1,1)[12] performed best with the
 </span><span class="n">forecast</span><span class="p">(</span><span class="n">hw</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">)</span><span class="w">
 </span><span class="n">plot</span><span class="p">(</span><span class="n">forecast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">))</span></code></pre></figure>
 
-<p>The Holt-Winters is a good predictor. The trend and seaonality patters are consistant with the previous data and the confidence intervals are narrow. Additionally, all 24 testing data points lie within the 95% prediction interval. 
+<p>The Holt-Winters is a good predictor. The trend and seasonality patters are consistent with the previous data and the confidence intervals are narrow. Additionally, all 24 testing data points lie within the 95% prediction interval. 
 <img src="/assets/Forecast/image12.png" alt="acf pacf" />
 <img src="/assets/Forecast/image13.png" alt="acf pacf" /></p>
 
 <h3 id="comparing-forecastings">Comparing Forecastings</h3>
-<p>To compare the forecast we will use two common criteria that quantify how much error the model produced. The lower the RMSE and MAPE the better the model was at predicting the testing data.</p>
+<p>To compare the forecast, we will use two common criteria that quantify how much error the model produced. The lower the RMSE and MAPE the better the model was at predicting the testing data.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">HWfcast1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">forecast</span><span class="p">(</span><span class="n">arma1</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="m">24</span><span class="p">)</span><span class="w">
 </span><span class="n">HWerr1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test</span><span class="o">-</span><span class="n">HWfcast1</span><span class="o">$</span><span class="n">mean</span><span class="w">
@@ -223,7 +221,7 @@ Of the three models we tested, SARIMA(1,1,1)x(0,1,1)[12] performed best with the
 </span><span class="n">HWmape3</span></code></pre></figure>
 
 <p><img src="/assets/Forecast/image14.png" alt="acf pacf" />
- As we expected the Holt- Winters forecasting was the best. Next, the ARIMA(9,1,12) model prformed slightly better than the SARIMA(1,1,1)x(0,1,1)[12] model. A second look a the forecasting graphs for these two models confirms their performances. The SARIMA model had no trend or seasonal pattern while the ARIMA model did have a slight seasonal pattern in its prediction.</p>
+ As we expected the Holt- Winters forecasting was the best. Next, the ARIMA(9,1,12) model performed slightly better than the SARIMA(1,1,1)x(0,1,1)[12] model. A second look at the forecasting graphs for these two models confirms their performances. The SARIMA model had no trend or seasonal pattern while the ARIMA model did have a slight seasonal pattern in its prediction.</p>
 
 
   </div>
