@@ -3,7 +3,7 @@ layout: post
 title:  "When Autocorrect Fails"
 date:   2016-12-12 20:44:03 -0500
 categories: R twitterAPI ggmap
-summary: Who misspells the most on Twitter?
+summary: Who misspells the most on Twitter? Use API mining and visualization in R to find out. 
 ---
 During a time when autocorrect on our phones and computers carries a heavy load, sometimes poor grammar slips through the cracks. So, where in the U.S. has the worst spelling on Twitter? To explore this question, I looked at five major cities which represent different regions of the country. To have the "worst spelling" is a bit broad so I choose it to mean the percentage of time a city misspelled one of the top four most commonly misspelled words with its most common misspelling. 
 
