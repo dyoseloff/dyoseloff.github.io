@@ -69,6 +69,32 @@
   
   
   <url>
+    <loc>http://localhost:4000/r/principal/components/factor/alaysis/2017/04/26/factor-analysis.html</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/principal/components/factor/alaysis/2017/04/26/factor-analysis.html"
+                />
+    
+    
+    
+    <lastmod>2017-04-26T19:44:03-06:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+  
+  
+  <url>
     <loc>http://localhost:4000/r/acf/pacf/holt/winters/train/testing/seasonal/hpi/housing/2017/04/17/HPI.html</loc>
     
     
