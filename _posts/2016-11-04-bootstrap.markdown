@@ -7,7 +7,7 @@ summary: Use the method of bootstrapping to 'create' more data in R.
 ---
 "In statistics, [bootstrapping](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)) is any test or metric that relies on random sampling with replacement." I'm going to use this method of sampling to find means of a random variable. 
 
-First, we set the senario. X is a random variable following a uniform distribution with the paramaters a=1 and b=2 and 200 observations. We create a vector of size 1000 called xbars. Since we are dealing with random sampling I've set the seed to 5 so exact means and graphs can be recreated. 
+First, we set the scenario. X is a random variable following a uniform distribution with the parameters a=1 and b=2 and 200 observations. We create a vector of size 1000 called xbars. Since we are dealing with random sampling I've set the seed to 5 so exact means and graphs can be recreated. 
 
 {% highlight r%}
 set.seed(5)
