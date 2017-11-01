@@ -251,6 +251,58 @@
   
   
   <url>
+    <loc>http://localhost:4000/r/studio/shiny/app/2016/11/07/shiny.mark</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/studio/shiny/app/2016/11/07/shiny.mark"
+                />
+    
+    
+    
+    <lastmod>2016-11-07T18:44:03-07:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://localhost:4000/r/studio/bootstraping/mean/uniform/normal/2016/11/04/bootstrap.html</loc>
+    
+    
+    <xhtml:link
+                rel="alternate"
+                hreflang=""
+                href="http://localhost:4000/r/studio/bootstraping/mean/uniform/normal/2016/11/04/bootstrap.html"
+                />
+    
+    
+    
+    <lastmod>2016-11-04T19:44:03-06:00</lastmod>
+    
+    <changefreq>weekly</changefreq>
+    
+  </url>
+  
+  
+  
+
+  
+  
+  
+  
+  
+  <url>
     <loc>http://localhost:4000/r/log/transformation/2016/10/23/log-trans.html</loc>
     
     

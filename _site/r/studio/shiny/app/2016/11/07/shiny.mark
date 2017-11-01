@@ -8,19 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <title> | 
+  <title>Interactive Visualization | 
   Danielle Yoseloff
 </title>
   
 
   
-  <meta name="description" content="
-  This website is a compliation of works from my time at Boston Univeristy  using mathematics and statistical concepts and tools such as R.
-">
+  <meta name="description" content="Work in progress. Create interactive visual displays with Shiny in R Studio.">
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://localhost:4000/">
+  <link rel="canonical" href="http://localhost:4000/r/studio/shiny/app/2016/11/07/shiny.mark">
   <link rel="alternate" type="application/rss+xml" title="
   Danielle Yoseloff
 " href="/feed.xml">
@@ -85,314 +83,63 @@
 
 
     
-    <main class="page-content" aria-label="Content">
+    <main class="post-content" aria-label="Content">
     
       <div class="wrapper">
-        
-
-
-<div class="home pitch">
-  
-
-  <div class="description">
-    <img class="user-picture" src="https://github.com/dyoseloff.png" alt="Danielle Yoseloff">
-    Welcome! This site is a compilation of some of the interesting work I've done during my studies. Take a look at the bottom of the page for links to my about me and resmue. 
-  </div>
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   
-
-
+  <header class="post-header">
   
-
-
-
-<ul class="post-list">
-  
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/principal/components/factor/alaysis/2017/04/26/factor-analysis.html">Qualitative Data</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Apr 26, 2017
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Use principal components and factor analysis to approach qualitative data.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/acf/pacf/holt/winters/train/testing/seasonal/hpi/housing/2017/04/17/HPI.html">Analyzing Utah Housing Market</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Apr 17, 2017
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Using time series data to predict HPI using R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/acf/pacf/holt/winters/train/testing/seasonal/2017/03/09/forecasting.html">Forecasting Time Series Data</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Mar 9, 2017
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Comparing forecasting methods for time series data with model selection in R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/outliers/collinearity/residuals/interaction/2017/02/12/best-model.html">Best Model for the Data</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Feb 12, 2017
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Multiple regression model assesment and reassessment in R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/acf/pacf/transformation/2017/01/18/time-series-plots.html">Choosing a Time Series Model </a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Jan 18, 2017
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Suggest a model for a time series dataset in R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/twitterapi/ggmap/2016/12/12/common-misspellings.html">When Autocorrect Fails</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Dec 12, 2016
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Who misspells the most on Twitter? Use API mining and visualization in R to find out.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/cleaning/data/2016/11/23/work-force.html">Cleaning and Visualizing Data</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Nov 23, 2016
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Learn how to clean data effectively and preseent information through visualizations in R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/studio/shiny/app/2016/11/07/shiny.mark">Interactive Visualization</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
+    
+    <div class="wrapper">
+      <h1 class="post-title" itemprop="name headline">Interactive Visualization</h1>
+      <p class="post-meta">
+        <time datetime="2016-11-07T18:44:03-07:00" itemprop="datePublished">
+          
 
   Nov 7, 2016
 
 
-      
+        </time>
+        
 
 
 
 
-      </span>
-    </span>
+         • 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Danielle Yoseloff</span></span>
+        
+      </p>
+      <h3 class="post-summary">Work in progress. Create interactive visual displays with Shiny in R Studio.</h3>
+    </div>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+  </div>
 
   
-
-  <p>Work in progress. Create interactive visual displays with Shiny in R Studio.</p>
+  <div class="post-author">
+    
+      <a href="
+  
+">
+        <img class="user-picture" src="https://github.com/dyoseloff.png" alt="Danielle Yoseloff">
+      </a>
+    
+      <ul class="user-info">
+        <li class="user-name">
+          Danielle Yoseloff
+        </li>
+        <li class="user-shortbio">
+  Salt Lake City
 </li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/studio/bootstraping/mean/uniform/normal/2016/11/04/bootstrap.html">Sampling with Replacement</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Nov 4, 2016
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
+      </ul>
+  </div>
   
 
-  <p>Use the method of bootstrapping to 'create' more data in R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/r/log/transformation/2016/10/23/log-trans.html">Log Transformation</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Oct 23, 2016
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Simple linear regression log transformation in R.</p>
-</li>
-
-  
-    <li>
-  <h2>
-    <a class="post-link" href="/sas/studio/data/entry/syntax/2016/09/21/data-entry.html">Data Entry SAS</a>
-  </h2>
-    <span class="post-meta">
-      <span class="date">
-      
-
-  Sep 21, 2016
-
-
-      
-
-
-
-
-      </span>
-    </span>
-
-  
-
-  <p>Entering data in SAS Studio.</p>
-</li>
-
-  
-</ul>
-
-
-  
-
-  
-
-</div>
+</article>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -558,6 +305,10 @@
   </div>
 </footer>
 
+
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
 
 
