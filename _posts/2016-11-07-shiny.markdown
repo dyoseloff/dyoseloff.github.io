@@ -1,0 +1,113 @@
+---
+layout: post
+title:  "Interactive Visualization"
+date:   2016-11-07 20:44:03 -0500
+categories: R Studio Shiny App 
+summary: Create interactive visual displays with Shiny in R Studio. 
+---
+I want to make interactive distributions of a few random variables. I want to see how changing sample size and other parameters changes the distribution. 
+
+We will be using a [shinyApp](https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html) with multiple tabs for each distribution. This requires using the ['shiny'](https://cran.r-project.org/web/packages/shiny/index.html) package and since we are using random sampling, I've set the seed to 5. 
+
+{% highlight r %}
+library(shiny)
+set.seed(5)
+{% endhighlight %}
+
+Note: the full code is at the bottom if at any point you would like to interact with the application on your own device or refer to it in full.
+
+Let's get started.
+The format of a shinyApp consists of two parts: the ui and the server. Each is commonly used as the variable to represent functions. The ui consists of the front end code because it is where page layout and parameters are defined. The server is the back end. This code is run each time parameters are updated.  The line of code at the bottom is a function that creates the shinyApp and pairs the ui and server.
+
+{% highlight r %}
+ui <- fluidPage(...
+)
+server <- function(input, output) {...
+}
+shinyApp(ui = ui, server = server) 
+{% endhighlight %}
+
+We want the application to have a tabbed format for each distribution, this is represented in the ui function. Each distribution is enveloped in a tabPanel. All tab panels are enclosed around a tabsetPanel. Additionally, we need to nest all of this in a mainPanel. The application will still run without the mainPanel; however, it makes the format more visually appealing.
+
+![mainpanel](/assets/shinyd/1.png)
+
+### Normal Distribution 
+Let's start by creating a [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution). First we'll take a look at the ui component. As we saw each distribution will be enclosed in its own tabPanel. The first input in the tabPanel is the name of the tab. Next we use the numericInput function to represent each parameter for a normal distribution. The inputId represents the input and will be referenced in the server code. Sample size is the name of the variable as it will appear on the application and value is the preset value for the sample size variable. Similarly, we have created a sample mean variable for the normal distribution. Finally, plotOutput is used to indicate the need for a plot and is referenced in the server code. 
+
+{% highlight r %}
+      tabPanel("Normal", numericInput(inputId = "n", "Sample size", value=30),
+               numericInput(inputId = "mean", "Sample mean", value=0),
+               plotOutput("normal"))
+{% endhighlight %}
+
+In the sever portion, the code accompanying each distribution is defined by an output association then wrapped in a render plot function. The output association is referencing the plotOutplut name. We are rendering a histogram using random sampling from a normal distribution and using the two parameters we defined in the ui code. The break number is seen as the thickness of the bars on the histogram. A large break number means a less detailed histogram so for our purposes we'd like a large break number. Finally, we define the title and labels of the graph.
+{% highlight r %}
+  output$normal <- renderPlot({
+    hist(rnorm(input$n,input$mean),breaks=25,main="Histogram of a random Normal variable", xlab="")
+  })
+{% endhighlight %}
+![mainpanel](/assets/shinyd/2.png)
+
+Here's a look at the interactive normal distribution in use. As sample size increases the histogram looks more like the [probability density function](https://en.wikipedia.org/wiki/Normal_distribution). 
+
+![norm](/assets/shinyd/norm1.gif)
+
+### Poisson Distribution
+The Poisson distribution has parameters: sample size and lambda. For the lambda parameter I've set the default value to 10, the minimum value to 1 and the maximum value to 100. I have also indicated that the slider should increase/ decrease by increments of 1. Take notice, sample size is a variable in every distribution but the inputId names need to be unique. 
+
+ui:
+{% highlight r %}
+      tabPanel("Poisson", numericInput(inputId = "xtop", "Sample size", value=30),
+               sliderInput(inputId = 'lambda', label="Lambda", min=1, max=100, value=10, step=1),
+               plotOutput("poisson")),
+{% endhighlight %}
+server:
+{% highlight r %}
+  output$poisson <- renderPlot({
+    hist(rpois(input$xtop,input$lambda), breaks=25, main="Historgram of a random Poission variable", xlab = "")
+  })
+{% endhighlight %}
+
+
+With large sample size, the poisson follows its [probability mass function](https://en.wikipedia.org/wiki/Poisson_distribution) at various lambdas. 
+![pois](/assets/shinyd/pois1.gif)
+
+### Discrete Uniform Distribution
+The discrete uniform distribution has parameter: sample size. 
+
+ui:
+{% highlight r %}
+      tabPanel("Uniform", numericInput(inputId = "n2", "Sample size", value=30),
+               plotOutput("discrete")),
+{% endhighlight %}
+server:
+{% highlight r %}
+  output$discrete <- renderPlot({
+    hist(runif(input$n2,min=0,max=1),breaks=25,main="Histogram of a random discrete Uniform variable", xlab="")
+  })
+{% endhighlight %}
+
+The larger the sample size, the more the histogram mirrors its ideal [probability mass function](https://en.wikipedia.org/wiki/Discrete_uniform_distribution). 
+![unif](/assets/shinyd/unif1.gif)
+
+### Chi-Squared Distribution
+The chi-squared distribution has parameters: sample size and degrees of freedom. The degrees of freedom default value is 5 with a minimum of 2 and a maximum of 100. The degrees of freedom scale should increase/decrease by increments of 1. 
+
+ui:
+{% highlight r %}
+      tabPanel("Chi-Squared", numericInput(inputId = "n3", "Sample size", value=30),
+               sliderInput(inputId = 'df', label="Degrees of Freedom", min=2, max=100, value=5, step=1),
+               plotOutput("chiSquared"))
+{% endhighlight %}
+server:
+{% highlight r %}
+  output$chiSquared <- renderPlot({
+    hist(rchisq(input$n3,input$df), breaks=25, main="Historgram of a random Chi-Squared variable", xlab = "")
+  })
+{% endhighlight %}
+
+With large sample size the histogram looks like its [probability density function](https://en.wikipedia.org/wiki/Chi-squared_distribution). It may not at first but notice how frequency changes. The maximum frequency for df=1 is much greater than when degrees of freedom decreases. 
+![chis](/assets/shinyd/chis1.gif)
+
+
+{% gist b1e23734a4b914d8b38d6682303502cf %}
