@@ -29,7 +29,7 @@ shinyApp(ui = ui, server = server)
 
 We want the application to have a tabbed format for each distribution, this is represented in the ui function. Each distribution is enveloped in a tabPanel. All tab panels are enclosed around a tabsetPanel. Additionally, we need to nest all of this in a mainPanel. The application will still run without the mainPanel; however, it makes the format more visually appealing.
 
-![mainpanel](/assets/shinyd/1.png)
+![mainpanel](/assets/shinyD/1.png)
 
 ### Normal Distribution 
 Let's start by creating a [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution). First we'll take a look at the ui component. As we saw each distribution will be enclosed in its own tabPanel. The first input in the tabPanel is the name of the tab. Next we use the numericInput function to represent each parameter for a normal distribution. The inputId represents the input and will be referenced in the server code. Sample size is the name of the variable as it will appear on the application and value is the preset value for the sample size variable. Similarly, we have created a sample mean variable for the normal distribution. Finally, plotOutput is used to indicate the need for a plot and is referenced in the server code. 
@@ -46,11 +46,11 @@ In the sever portion, the code accompanying each distribution is defined by an o
     hist(rnorm(input$n,input$mean),breaks=25,main="Histogram of a random Normal variable", xlab="")
   })
 {% endhighlight %}
-![mainpanel](/assets/shinyd/2.png)
+![mainpanel](/assets/shinyD/2.png)
 
 Here's a look at the interactive normal distribution in use. As sample size increases the histogram looks more like the [probability density function](https://en.wikipedia.org/wiki/Normal_distribution). 
 
-![norm](/assets/shinyd/norm1.gif)
+![norm](/assets/shinyD/norm1.gif)
 
 ### Poisson Distribution
 The Poisson distribution has parameters: sample size and lambda. For the lambda parameter I've set the default value to 10, the minimum value to 1 and the maximum value to 100. I have also indicated that the slider should increase/ decrease by increments of 1. Take notice, sample size is a variable in every distribution but the inputId names need to be unique. 
@@ -70,7 +70,7 @@ server:
 
 
 With large sample size, the poisson follows its [probability mass function](https://en.wikipedia.org/wiki/Poisson_distribution) at various lambdas. 
-![pois](/assets/shinyd/pois1.gif)
+![pois](/assets/shinyD/pois1.gif)
 
 ### Discrete Uniform Distribution
 The discrete uniform distribution has parameter: sample size. 
@@ -88,7 +88,7 @@ server:
 {% endhighlight %}
 
 The larger the sample size, the more the histogram mirrors its ideal [probability mass function](https://en.wikipedia.org/wiki/Discrete_uniform_distribution). 
-![unif](/assets/shinyd/unif1.gif)
+![unif](/assets/shinyD/unif1.gif)
 
 ### Chi-Squared Distribution
 The chi-squared distribution has parameters: sample size and degrees of freedom. The degrees of freedom default value is 5 with a minimum of 2 and a maximum of 100. The degrees of freedom scale should increase/decrease by increments of 1. 
@@ -107,7 +107,7 @@ server:
 {% endhighlight %}
 
 With large sample size the histogram looks like its [probability density function](https://en.wikipedia.org/wiki/Chi-squared_distribution). It may not at first but notice how frequency changes. The maximum frequency for df=1 is much greater than when degrees of freedom decreases. 
-![chis](/assets/shinyd/chis1.gif)
+![chis](/assets/shinyD/chis1.gif)
 
 
 {% gist b1e23734a4b914d8b38d6682303502cf %}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="http://jekyllrb.com" version="3.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-11-06T16:33:05-07:00</updated><id>http://localhost:4000/</id><title type="html">Danielle Yoseloff</title><subtitle>This website is a compliation of works from my time at Boston Univeristy  using mathematics and statistical concepts and tools such as R.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="http://jekyllrb.com" version="3.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-11-06T16:43:24-07:00</updated><id>http://localhost:4000/</id><title type="html">Danielle Yoseloff</title><subtitle>This website is a compliation of works from my time at Boston Univeristy  using mathematics and statistical concepts and tools such as R.
 </subtitle><author><name>Danielle Yoseloff</name></author><entry><title type="html">Qualitative Data</title><link href="http://localhost:4000/r/principal/components/factor/alaysis/2017/04/26/factor-analysis.html" rel="alternate" type="text/html" title="Qualitative Data" /><published>2017-04-26T19:44:03-06:00</published><updated>2017-04-26T19:44:03-06:00</updated><id>http://localhost:4000/r/principal/components/factor/alaysis/2017/04/26/factor-analysis</id><content type="html" xml:base="http://localhost:4000/r/principal/components/factor/alaysis/2017/04/26/factor-analysis.html">&lt;p&gt;The &lt;a href=&quot;/assets/factor/Faculty.csv&quot;&gt;data set&lt;/a&gt; we will be working with is an online resource from Professor James Sidanius at UCLA. It contains information from 400 students’ faculty evaluations. The data set includes 10 variables corresponding to the scores for each evaluation question, Sex of instructor (1 for male 2 for female), Salary in thousands of dollars, Years of teaching experieence, and Number of students in the class being evaluated. Also make a note that the data is clean and has no missing entries.&lt;/p&gt;
 
 &lt;p&gt;By the end of our analysis we’d like to be able to answer two questions:&lt;/p&gt;
@@ -476,7 +476,7 @@ The format of a shinyApp consists of two parts: the ui and the server. Each is c
 
 &lt;p&gt;We want the application to have a tabbed format for each distribution, this is represented in the ui function. Each distribution is enveloped in a tabPanel. All tab panels are enclosed around a tabsetPanel. Additionally, we need to nest all of this in a mainPanel. The application will still run without the mainPanel; however, it makes the format more visually appealing.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/shinyd/1.png&quot; alt=&quot;mainpanel&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/shinyD/1.png&quot; alt=&quot;mainpanel&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;normal-distribution&quot;&gt;Normal Distribution&lt;/h3&gt;
 &lt;p&gt;Let’s start by creating a &lt;a href=&quot;https://en.wikipedia.org/wiki/Normal_distribution&quot;&gt;normal distribution&lt;/a&gt;. First we’ll take a look at the ui component. As we saw each distribution will be enclosed in its own tabPanel. The first input in the tabPanel is the name of the tab. Next we use the numericInput function to represent each parameter for a normal distribution. The inputId represents the input and will be referenced in the server code. Sample size is the name of the variable as it will appear on the application and value is the preset value for the sample size variable. Similarly, we have created a sample mean variable for the normal distribution. Finally, plotOutput is used to indicate the need for a plot and is referenced in the server code.&lt;/p&gt;
@@ -491,11 +491,11 @@ The format of a shinyApp consists of two parts: the ui and the server. Each is c
     &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rnorm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;breaks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Histogram of a random Normal variable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xlab&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/shinyd/2.png&quot; alt=&quot;mainpanel&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/shinyD/2.png&quot; alt=&quot;mainpanel&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Here’s a look at the interactive normal distribution in use. As sample size increases the histogram looks more like the &lt;a href=&quot;https://en.wikipedia.org/wiki/Normal_distribution&quot;&gt;probability density function&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/shinyd/norm1.gif&quot; alt=&quot;norm&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/shinyD/norm1.gif&quot; alt=&quot;norm&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;poisson-distribution&quot;&gt;Poisson Distribution&lt;/h3&gt;
 &lt;p&gt;The Poisson distribution has parameters: sample size and lambda. For the lambda parameter I’ve set the default value to 10, the minimum value to 1 and the maximum value to 100. I have also indicated that the slider should increase/ decrease by increments of 1. Take notice, sample size is a variable in every distribution but the inputId names need to be unique.&lt;/p&gt;
@@ -513,7 +513,7 @@ The format of a shinyApp consists of two parts: the ui and the server. Each is c
   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;With large sample size, the poisson follows its &lt;a href=&quot;https://en.wikipedia.org/wiki/Poisson_distribution&quot;&gt;probability mass function&lt;/a&gt; at various lambdas. 
-&lt;img src=&quot;/assets/shinyd/pois1.gif&quot; alt=&quot;pois&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/shinyD/pois1.gif&quot; alt=&quot;pois&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;discrete-uniform-distribution&quot;&gt;Discrete Uniform Distribution&lt;/h3&gt;
 &lt;p&gt;The discrete uniform distribution has parameter: sample size.&lt;/p&gt;
@@ -530,7 +530,7 @@ The format of a shinyApp consists of two parts: the ui and the server. Each is c
   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The larger the sample size, the more the histogram mirrors its ideal &lt;a href=&quot;https://en.wikipedia.org/wiki/Discrete_uniform_distribution&quot;&gt;probability mass function&lt;/a&gt;. 
-&lt;img src=&quot;/assets/shinyd/unif1.gif&quot; alt=&quot;unif&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/shinyD/unif1.gif&quot; alt=&quot;unif&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;chi-squared-distribution&quot;&gt;Chi-Squared Distribution&lt;/h3&gt;
 &lt;p&gt;The chi-squared distribution has parameters: sample size and degrees of freedom. The degrees of freedom default value is 5 with a minimum of 2 and a maximum of 100. The degrees of freedom scale should increase/decrease by increments of 1.&lt;/p&gt;
@@ -548,7 +548,7 @@ The format of a shinyApp consists of two parts: the ui and the server. Each is c
   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;With large sample size the histogram looks like its &lt;a href=&quot;https://en.wikipedia.org/wiki/Chi-squared_distribution&quot;&gt;probability density function&lt;/a&gt;. It may not at first but notice how frequency changes. The maximum frequency for df=1 is much greater than when degrees of freedom decreases. 
-&lt;img src=&quot;/assets/shinyd/chis1.gif&quot; alt=&quot;chis&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/shinyD/chis1.gif&quot; alt=&quot;chis&quot; /&gt;&lt;/p&gt;
 
 &lt;script src=&quot;https://gist.github.com/b1e23734a4b914d8b38d6682303502cf.js&quot;&gt; &lt;/script&gt;</content><author><name>Danielle Yoseloff</name></author><summary type="html">I want to make interactive distributions of a few random variables. I want to see how changing sample size and other parameters changes the distribution.</summary></entry><entry><title type="html">Sampling with Replacement</title><link href="http://localhost:4000/r/studio/bootstraping/mean/uniform/normal/2016/11/04/bootstrap.html" rel="alternate" type="text/html" title="Sampling with Replacement" /><published>2016-11-04T19:44:03-06:00</published><updated>2016-11-04T19:44:03-06:00</updated><id>http://localhost:4000/r/studio/bootstraping/mean/uniform/normal/2016/11/04/bootstrap</id><content type="html" xml:base="http://localhost:4000/r/studio/bootstraping/mean/uniform/normal/2016/11/04/bootstrap.html">&lt;p&gt;“In statistics, &lt;a href=&quot;https://en.wikipedia.org/wiki/Bootstrapping_(statistics)&quot;&gt;bootstrapping&lt;/a&gt; is any test or metric that relies on random sampling with replacement.” I’m going to use this method of sampling to find means of a random variable.&lt;/p&gt;
 
